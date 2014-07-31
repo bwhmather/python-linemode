@@ -102,11 +102,18 @@ class LineModeRenderer(object):
             yield from self._render_body(elem, max_width)
             yield ('cancel-bold')
 
-    def render(self, source):
+    def render(self, source, *, prelude=True):
         xml = etree.fromstring(source)
 
         _strip_outer_whitespace(xml)
         _compress_whitespace(xml)
+
+        if prelude:
+            yield ('set-charset', xml.attrib.get('charset', 'ascii'))
+            yield ('cancel-bold')
+            yield ('cancel-highlight')
+            yield ('cancel-inverse')
+
         for line in xml.getchildren():
             yield from self._render_body(line, max_width=self._max_width)
             yield ('write', "\n")

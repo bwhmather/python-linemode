@@ -53,7 +53,7 @@ class TestLineModeRenderer(unittest.TestCase):
             Hello world
           </line>
         </document>
-        """))
+        """, prelude=False))
 
         self.assertEqual(
             commands,

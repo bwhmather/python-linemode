@@ -2,7 +2,7 @@ import unittest
 from lxml import etree
 
 from nm_printing.renderers.line_mode import (
-    _compress_whitespace, _strip_outer_whitespace,
+    _compress_whitespace, _strip_outer_whitespace, LineModeRenderer,
 )
 
 
@@ -45,3 +45,20 @@ class TestLineModeRenderer(unittest.TestCase):
         test("<a><b></b> text <c></c></a>", "<a><b/> text <c/></a>")
 
         test("<a><b></b> text </a>", "<a><b/> text</a>")
+
+    def test_render_hello(self):
+        commands = list(LineModeRenderer().render("""
+        <document>
+          <line>
+            Hello world
+          </line>
+        </document>
+        """))
+
+        self.assertEqual(
+            commands,
+            [
+                ('write', "Hello world"),
+                ('write', "\n"),
+            ]
+        )

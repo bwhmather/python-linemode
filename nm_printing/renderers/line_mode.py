@@ -44,8 +44,8 @@ def _strip_outer_whitespace(xml):
 
 
 class LineModeRenderer(object):
-    def __init__(self):
-        pass
+    def __init__(self, *, max_width=None):
+        self._max_width = max_width
 
     def _body_width(self, elem, *, max_width=None):
             width = len(elem.text or '')
@@ -108,5 +108,5 @@ class LineModeRenderer(object):
         _strip_outer_whitespace(xml)
         _compress_whitespace(xml)
         for line in xml.getchildren():
-            yield from self._render_body(line)
+            yield from self._render_body(line, max_width=self._max_width)
             yield ('write', "\n")

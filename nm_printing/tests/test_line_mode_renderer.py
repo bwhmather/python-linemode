@@ -62,3 +62,13 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('write', "\n"),
             ]
         )
+
+    def test_default_charset(self):
+        commands = set(LineModeRenderer().render("""<document></document>"""))
+        self.assertIn(('set-charset', 'ascii'), commands)
+
+    def test_charset(self):
+        commands = set(LineModeRenderer().render(
+            """<document charset="euc_jp"></document>"""
+        ))
+        self.assertIn(('set-charset', 'euc_jp'), commands)

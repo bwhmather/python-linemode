@@ -23,8 +23,6 @@ def open_printer(uri, *args, **kwargs):
     if not scheme or scheme == uri:
         raise ValueError("Malformed printer uri")
     try:
-        print(scheme)
-        print(list(_drivers.keys()))
         driver = _drivers[scheme]
     except KeyError:
         raise Exception("Unrecognised printer uri")

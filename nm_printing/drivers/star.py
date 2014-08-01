@@ -11,10 +11,25 @@ class StarPrinter(Printer):
         self._port = port
         self._charset = 'ascii'
 
-    def _op_set_charset(self, charset):
-        charset = codecs.lookup(charset).name
-
-        command = b'\x1b\x1d\x74' + {
+        self.COMMANDS = {
+            'reset': b'\x18',
+            'select-bold': b'\x1b\x45',
+            'cancel-bold': b'\x1b\x46',
+            'select-highlight': b'\x1b\x34',
+            'cancel-highlight': b'\x1b\x35',
+            'select-inverse': b'\x0f',
+            'cancel-inverse': b'\x12',
+            'fontsize-small': b'\x1b\x14',
+            'fontsize-medium': b'\x1b\x0e',
+            'fontsize-large': b'\x1b\x68\x32',
+            'set-charset': self._op_set_charset,
+            'write': self._op_write_string,
+            'cut-through': b'\x1b\x64\x02',
+            'cut-partial': b'\x1b\x64\x03',
+            'cut-through-immediate': b'\x1b\x64\x00',
+            'cut-partial-immediate': b'\x1b\x64\x01',
+        }
+        self.CHARSET_CODES = {
             'ascii': b'\x00',  # TODO Normal is not ascii but something weird
             'euc_jp': b'\x02',  # TODO Katakana
             'cp437': b'\x03',
@@ -55,7 +70,11 @@ class StarPrinter(Printer):
             'cp3012': b'\x4d',  # TODO not supported by python
             'cp3021': b'\x4e',  # TODO not supported by python
             'cp3041': b'\x4f',  # TODO not supported by python
-        }[charset]
+        }
+
+    def _op_set_charset(self, charset):
+        charset = codecs.lookup(charset).name
+        command = b'\x1b\x1d\x74' + self.CHARSET_CODES[charset]
 
         # XXX side-effect XXX
         # need to keep a record of what charset the printer is using in order
@@ -69,30 +88,12 @@ class StarPrinter(Printer):
         return string.encode(self._charset)
 
     def compile_command(self, command):
-        commands = {
-            'reset': b'\x18',
-            'select-bold': b'\x1b\x45',
-            'cancel-bold': b'\x1b\x46',
-            'select-highlight': b'\x1b\x34',
-            'cancel-highlight': b'\x1b\x35',
-            'select-inverse': b'\x0f',
-            'cancel-inverse': b'\x12',
-            'fontsize-small': b'\x1b\x14',
-            'fontsize-medium': b'\x1b\x0e',
-            'fontsize-large': b'\x1b\x68\x32',
-            'set-charset': self._op_set_charset,
-            'write': self._op_write_string,
-            'cut-through': b'\x1b\x64\x02',
-            'cut-partial': b'\x1b\x64\x03',
-            'cut-through-immediate': b'\x1b\x64\x00',
-            'cut-partial-immediate': b'\x1b\x64\x01',
-        }
         if isinstance(command, str):
             command_name, args = command, []
         else:
             command_name, *args = command
 
-        command = commands[command_name]
+        command = self.COMMANDS[command_name]
         if isinstance(command, bytes):
             return command
         return command(*args)

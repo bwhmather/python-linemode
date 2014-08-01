@@ -109,10 +109,8 @@ class LineModeRenderer(object):
         _compress_whitespace(xml)
 
         if prelude:
+            yield ('reset')
             yield ('set-charset', xml.attrib.get('charset', 'ascii'))
-            yield ('cancel-bold')
-            yield ('cancel-highlight')
-            yield ('cancel-inverse')
 
         for line in xml.getchildren():
             yield from self._render_body(line, max_width=self._max_width)

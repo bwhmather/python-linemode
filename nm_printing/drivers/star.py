@@ -70,6 +70,7 @@ class StarPrinter(Printer):
 
     def compile_command(self, command):
         commands = {
+            'reset': b'\x18',
             'select-bold': b'\x1b\x45',
             'cancel-bold': b'\x1b\x46',
             'select-highlight': b'\x1b\x34',

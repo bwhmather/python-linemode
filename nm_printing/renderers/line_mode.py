@@ -116,3 +116,6 @@ class LineModeRenderer(object):
         for line in xml.getchildren():
             yield from self._render_body(line, max_width=self._max_width)
             yield ('write', "\n")
+
+    def __iter__(self):
+        return self.render()

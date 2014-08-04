@@ -63,6 +63,23 @@ class TestLineModeRenderer(unittest.TestCase):
             ]
         )
 
+    def test_render_span(self):
+        commands = list(LineModeRenderer("""
+        <document>
+          <line>
+            <span>Hello world</span>
+          </line>
+        </document>
+        """).render(prelude=False))
+
+        self.assertEqual(
+            commands,
+            [
+                ('write', "Hello world"),
+                ('write', "\n"),
+            ]
+        )
+
     def test_default_charset(self):
         commands = set(LineModeRenderer("""<document></document>""").render())
         self.assertIn(('set-charset', 'ascii'), commands)

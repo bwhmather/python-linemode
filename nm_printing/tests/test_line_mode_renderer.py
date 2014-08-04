@@ -10,9 +10,9 @@ class TestLineModeRenderer(unittest.TestCase):
     def test_compress_whitespace(self):
         xml = etree.fromstring("""
         <line>
-            <span>
-                Word \t<bold>bold</bold>
-            </span>
+          <span>
+            Word \t<bold>bold</bold>
+          </span>
         </line>
         """)
         _compress_whitespace(xml)

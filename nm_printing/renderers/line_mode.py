@@ -117,5 +117,9 @@ class LineModeRenderer(object):
             yield from self._render_body(line, max_width=self._max_width)
             yield ('write', "\n")
 
+        # TODO better name for flag
+        if prelude:
+            yield ('cut-through')
+
     def __iter__(self):
         return self.render()

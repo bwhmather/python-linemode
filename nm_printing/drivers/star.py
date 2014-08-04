@@ -105,6 +105,9 @@ class StarPrinter(Printer):
         self._port.write(message)
         self._port.flush()
 
+    def shutdown(self):
+        self._port.close()
+
 
 def open_tcp(uri, *args, **kwargs):
     raise NotImplementedError()

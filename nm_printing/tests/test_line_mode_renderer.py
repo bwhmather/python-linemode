@@ -47,13 +47,13 @@ class TestLineModeRenderer(unittest.TestCase):
         test("<a><b></b> text </a>", "<a><b/> text</a>")
 
     def test_render_hello(self):
-        commands = list(LineModeRenderer().render("""
+        commands = list(LineModeRenderer("""
         <document>
           <line>
             Hello world
           </line>
         </document>
-        """, prelude=False))
+        """).render(prelude=False))
 
         self.assertEqual(
             commands,
@@ -64,11 +64,11 @@ class TestLineModeRenderer(unittest.TestCase):
         )
 
     def test_default_charset(self):
-        commands = set(LineModeRenderer().render("""<document></document>"""))
+        commands = set(LineModeRenderer("""<document></document>""").render())
         self.assertIn(('set-charset', 'ascii'), commands)
 
     def test_charset(self):
-        commands = set(LineModeRenderer().render(
+        commands = set(LineModeRenderer(
             """<document charset="euc_jp"></document>"""
-        ))
+        ).render())
         self.assertIn(('set-charset', 'euc_jp'), commands)

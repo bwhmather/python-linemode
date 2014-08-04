@@ -44,7 +44,8 @@ def _strip_outer_whitespace(xml):
 
 
 class LineModeRenderer(object):
-    def __init__(self, *, max_width=None):
+    def __init__(self, source, *, max_width=None):
+        self._source = source
         self._max_width = max_width
 
     def _body_width(self, elem, *, max_width=None):
@@ -102,8 +103,8 @@ class LineModeRenderer(object):
             yield from self._render_body(elem, max_width)
             yield ('cancel-bold')
 
-    def render(self, source, *, prelude=True):
-        xml = etree.fromstring(source)
+    def render(self, *, prelude=True):
+        xml = etree.fromstring(self._source)
 
         _strip_outer_whitespace(xml)
         _compress_whitespace(xml)

@@ -72,7 +72,7 @@ class LineModeRenderer(object):
             return self._body_width(elem, max_width)
 
     def _element_width(self, elem, *, max_width=None):
-        if elem.name in {'span', 'bold', 'highlighted', 'inverse'}:
+        if elem.tag in {'span', 'bold', 'highlighted', 'inverse'}:
             width = self._span_width(elem, max_width=max_width)
         else:
             raise Exception('unknown element', elem)
@@ -94,7 +94,7 @@ class LineModeRenderer(object):
                 yield ('write', child.tail)
 
     def _render_element(self, elem, *, max_width=None):
-        if elem.name == 'span':
+        if elem.tag == 'span':
             # TODO justify
             yield from self._render_span(elem, max_width=max_width)
 

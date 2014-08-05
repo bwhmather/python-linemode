@@ -123,3 +123,8 @@ class LineModeRenderer(object):
 
     def __iter__(self):
         return self.render()
+
+
+def render(source, *, max_width=None, prelude=True):
+    renderer = LineModeRenderer(source, max_width=max_width)
+    return renderer.render(prelude=prelude)

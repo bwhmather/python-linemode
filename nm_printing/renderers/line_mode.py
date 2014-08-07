@@ -9,7 +9,8 @@
 
 attributes:
   - `width`:
-    if not supplied, the span will be limited only by the width of the containing element.
+    if not supplied, the span will be limited only by the width of the
+    containing element.
   - `align`:
     one of `left`, `right`, `centerLeft`, `centerRight` or `center`.  `center`
     is shorthand for `centerLeft`.  Defaults to `left`.  If width is not

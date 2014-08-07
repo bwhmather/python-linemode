@@ -112,6 +112,11 @@ class LineModeRenderer(object):
         if max_width is None:
             max_width = body_width
 
+        if 'bold' in elem.attrib:
+            self._bold_stack += 1
+            if self._bold_stack == 1:
+                yield ('select-bold')
+
         if body_width >= max_width:
             # no point in trying to justify text that overflows. Just align
             # left and truncate rather than trying to truncate at the start
@@ -132,6 +137,11 @@ class LineModeRenderer(object):
             yield ('write', ' ' * padding)
 
         yield from self._render_body(elem, max_width=max_width)
+
+        if 'bold' in elem.attrib:
+            self._bold_stack -= 1
+            if self._bold_stack == 0:
+                yield ('cancel-bold')
 
     def _render_body(self, elem, *, max_width=None):
         children = elem.getchildren()

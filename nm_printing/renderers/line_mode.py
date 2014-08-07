@@ -125,18 +125,22 @@ class LineModeRenderer(object):
             alignment = elem.attrib.get('alignment', 'left')
 
         if alignment == 'left':
-            padding = 0
+            left_padding = 0
         elif alignment == 'right':
-            padding = max_width - body_width
+            left_padding = max_width - body_width
         elif alignment == 'centerLeft' or alignment == 'center':
-            padding = (max_width - body_width) // 2
+            left_padding = (max_width - body_width) // 2
         elif alignment == 'centerRight':
-            padding = int(round(max_width - body_width) / 2)
+            left_padding = int(round(max_width - body_width) / 2)
 
-        if padding > 0:
-            yield ('write', ' ' * padding)
+        if left_padding > 0:
+            yield ('write', ' ' * left_padding)
 
         yield from self._render_body(elem, max_width=max_width)
+
+        right_padding = max_width - body_width - left_padding
+        if right_padding > 0:
+            yield ('write', ' ' * right_padding)
 
         if 'bold' in elem.attrib:
             self._bold_stack -= 1

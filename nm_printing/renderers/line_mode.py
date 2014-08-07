@@ -75,7 +75,7 @@ class LineModeRenderer(object):
 
     def _body_width(self, elem, *, max_width=None):
             width = len(elem.text or '')
-            for child in elem.get_children():
+            for child in elem.getchildren():
                 if max_width is not None:
                     if width > max_width:
                         return max_width

@@ -1,3 +1,24 @@
+"""
+## Elements
+
+### `<document>`
+
+### `<line>`
+
+### `<span>`
+
+attributes:
+  - `width`:
+    if not supplied, the span will be limited only by the width of the containing element.
+  - `align`:
+    one of `left`, `right`, `centerLeft`, `centerRight` or `center`.  `center`
+    is shorthand for `centerLeft`.  Defaults to `left`.  If width is not
+    specified and cannot be determined from the context, the content width is
+    used and this attribute has no effect.
+  - `bold`:
+    the contents of this span should be printed in bold.
+
+"""
 import re
 
 from lxml import etree

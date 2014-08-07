@@ -110,6 +110,8 @@ class LineModeRenderer(object):
     def _render_span(self, elem, *, max_width=None):
         body_width = self._body_width(elem)
         if max_width is None or body_width >= max_width:
+            # no point in trying to justify text that overflows. Just align
+            # left and truncate rather than trying to truncate at the start
             return self._render_body(elem, max_width=max_width)
 
     def _render_body(self, elem, *, max_width=None):

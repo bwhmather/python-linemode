@@ -130,7 +130,7 @@ class LineModeRenderer(object):
         elif alignment == 'centerLeft' or alignment == 'center':
             left_padding = (width - body_width) // 2
         elif alignment == 'centerRight':
-            left_padding = int(round(width - body_width) / 2)
+            left_padding = int(round((width - body_width) / 2))
 
         if left_padding > 0:
             yield ('write', ' ' * left_padding)

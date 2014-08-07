@@ -80,6 +80,32 @@ class TestLineModeRenderer(unittest.TestCase):
             ]
         )
 
+    def test_align(self):
+        def test(alignment, expected):
+            commands = list(render("""
+            <document>
+              <line>
+                <span align="%s" width="5">aa</span>
+              </line>
+            </document>""" % alignment, prelude=False))
+            self.assertEqual(commands, expected)
+
+        test('left', [
+            ('write', 'aa'), ('write', '   '), ('write', '\n'),
+        ])
+        test('right', [
+            ('write', '   '), ('write', 'aa'), ('write', '\n'),
+        ])
+        test('centerLeft', [
+            ('write', ' '), ('write', 'aa'), ('write', '  '), ('write', '\n'),
+        ])
+        test('center', [
+            ('write', ' '), ('write', 'aa'), ('write', '  '), ('write', '\n'),
+        ])
+        test('centerRight', [
+            ('write', '  '), ('write', 'aa'), ('write', ' '), ('write', '\n'),
+        ])
+
     def test_default_charset(self):
         commands = set(render("""<document></document>"""))
         self.assertIn(('set-charset', 'ascii'), commands)

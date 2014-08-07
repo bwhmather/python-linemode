@@ -65,9 +65,13 @@ def _strip_outer_whitespace(xml):
 
 
 class LineModeRenderer(object):
-    def __init__(self, source, *, max_width=None):
+    def __init__(self, source, *, max_width=None, prelude=False):
         self._source = source
         self._max_width = max_width
+        self._prelude = prelude
+
+        # TODO this seems funky
+        self._generator = self._render()
 
     def _body_width(self, elem, *, max_width=None):
             width = len(elem.text or '')
@@ -124,13 +128,13 @@ class LineModeRenderer(object):
             yield from self._render_body(elem, max_width)
             yield ('cancel-bold')
 
-    def render(self, *, prelude=True):
+    def _render(self):
         xml = etree.fromstring(self._source)
 
         _strip_outer_whitespace(xml)
         _compress_whitespace(xml)
 
-        if prelude:
+        if self._prelude:
             yield ('reset')
             yield ('set-charset', xml.attrib.get('charset', 'ascii'))
 
@@ -139,13 +143,15 @@ class LineModeRenderer(object):
             yield ('write', "\n")
 
         # TODO better name for flag
-        if prelude:
+        if self._prelude:
             yield ('cut-through')
 
     def __iter__(self):
-        return self.render()
+        return self
+
+    def __next__(self):
+        return next(self._generator)
 
 
 def render(source, *, max_width=None, prelude=True):
-    renderer = LineModeRenderer(source, max_width=max_width)
-    return renderer.render(prelude=prelude)
+    return LineModeRenderer(source, max_width=max_width, prelude=prelude)

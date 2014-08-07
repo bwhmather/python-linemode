@@ -2,7 +2,7 @@ import unittest
 from lxml import etree
 
 from nm_printing.renderers.line_mode import (
-    _compress_whitespace, _strip_outer_whitespace, LineModeRenderer,
+    _compress_whitespace, _strip_outer_whitespace, render,
 )
 
 
@@ -47,13 +47,13 @@ class TestLineModeRenderer(unittest.TestCase):
         test("<a><b></b> text </a>", "<a><b/> text</a>")
 
     def test_render_hello(self):
-        commands = list(LineModeRenderer("""
+        commands = list(render("""
         <document>
           <line>
             Hello world
           </line>
         </document>
-        """).render(prelude=False))
+        """, prelude=False))
 
         self.assertEqual(
             commands,
@@ -64,13 +64,13 @@ class TestLineModeRenderer(unittest.TestCase):
         )
 
     def test_render_span(self):
-        commands = list(LineModeRenderer("""
+        commands = list(render("""
         <document>
           <line>
             <span>Hello world</span>
           </line>
         </document>
-        """).render(prelude=False))
+        """, prelude=False))
 
         self.assertEqual(
             commands,
@@ -81,11 +81,11 @@ class TestLineModeRenderer(unittest.TestCase):
         )
 
     def test_default_charset(self):
-        commands = set(LineModeRenderer("""<document></document>""").render())
+        commands = set(render("""<document></document>"""))
         self.assertIn(('set-charset', 'ascii'), commands)
 
     def test_charset(self):
-        commands = set(LineModeRenderer(
+        commands = set(render(
             """<document charset="euc_jp"></document>"""
-        ).render())
+        ))
         self.assertIn(('set-charset', 'euc_jp'), commands)

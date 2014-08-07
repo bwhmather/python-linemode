@@ -121,7 +121,7 @@ class LineModeRenderer(object):
             # left and truncate rather than trying to truncate at the start
             alignment = 'left'
         else:
-            alignment = elem.attrib.get('alignment', 'left')
+            alignment = elem.attrib.get('align', 'left')
 
         if alignment == 'left':
             left_padding = 0

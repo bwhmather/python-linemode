@@ -90,12 +90,12 @@ class LineModeRenderer(object):
 
     def _span_width(self, elem, *, max_width=None):
         if 'width' in elem.attrib:
-            width = int(elem.attrib.get['width'])
+            width = int(elem.attrib['width'])
             if max_width is not None:
                 width = min(width, max_width)
             return width
         else:
-            return self._body_width(elem, max_width)
+            return self._body_width(elem, max_width=max_width)
 
     def _element_width(self, elem, *, max_width=None):
         if elem.tag in {'span', 'bold', 'highlighted', 'inverse'}:
@@ -108,16 +108,15 @@ class LineModeRenderer(object):
         return width
 
     def _render_span(self, elem, *, max_width=None):
-        body_width = self._body_width(elem)
-        if max_width is None:
-            max_width = body_width
+        width = self._span_width(elem, max_width=max_width)
+        body_width = self._body_width(elem, max_width=width)
 
         if 'bold' in elem.attrib:
             self._bold_stack += 1
             if self._bold_stack == 1:
                 yield ('select-bold')
 
-        if body_width >= max_width:
+        if body_width >= width:
             # no point in trying to justify text that overflows. Just align
             # left and truncate rather than trying to truncate at the start
             alignment = 'left'
@@ -127,18 +126,18 @@ class LineModeRenderer(object):
         if alignment == 'left':
             left_padding = 0
         elif alignment == 'right':
-            left_padding = max_width - body_width
+            left_padding = width - body_width
         elif alignment == 'centerLeft' or alignment == 'center':
-            left_padding = (max_width - body_width) // 2
+            left_padding = (width - body_width) // 2
         elif alignment == 'centerRight':
-            left_padding = int(round(max_width - body_width) / 2)
+            left_padding = int(round(width - body_width) / 2)
 
         if left_padding > 0:
             yield ('write', ' ' * left_padding)
 
-        yield from self._render_body(elem, max_width=max_width)
+        yield from self._render_body(elem, max_width=width)
 
-        right_padding = max_width - body_width - left_padding
+        right_padding = width - body_width - left_padding
         if right_padding > 0:
             yield ('write', ' ' * right_padding)
 

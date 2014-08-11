@@ -103,7 +103,7 @@ class LineModeRenderer(object):
         else:
             raise Exception('unknown element', elem)
 
-        if width is not None:
+        if max_width is not None:
             assert width <= max_width
         return width
 

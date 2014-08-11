@@ -71,6 +71,8 @@ class LineModeRenderer(object):
         self._max_width = max_width
         self._prelude = prelude
 
+        self._bold_stack = 0
+
         # TODO this seems funky
         self._generator = self._render()
 

@@ -168,14 +168,10 @@ class _LineModeRenderer(object):
                 yield ('write', child.tail)
 
     def _render_element(self, elem, *, max_width=None):
-        if elem.tag == 'span':
-            # TODO justify
-            yield from self._render_span(elem, max_width=max_width)
-
-        elif elem.name == 'bold':
-            yield ('select-bold')
-            yield from self._render_body(elem, max_width)
-            yield ('cancel-bold')
+        yield from {
+            'span': self._render_span,
+            'bold': self._render_bold,
+        }[elem.tag](elem, max_width=max_width)
 
     def _render(self):
         # imported here as lxml is an `extras_require` dependency

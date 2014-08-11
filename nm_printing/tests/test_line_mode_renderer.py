@@ -116,11 +116,11 @@ class TestLineModeRenderer(unittest.TestCase):
         ))
         self.assertIn(('set-charset', 'euc_jp'), commands)
 
-    def test_bold_span(self):
+    def test_bold(self):
         commands = list(render("""
         <document>
           <line>
-            <span bold="bold">BOLD</span>
+            <bold>BOLD</bold>
           </line>
         </document>
         """, prelude=False))
@@ -138,9 +138,9 @@ class TestLineModeRenderer(unittest.TestCase):
         commands = list(render("""
         <document>
           <line>
-            <span bold="bold">
-              <span bold="bold">BOLD</span>STILL BOLD
-            </span>
+            <bold>
+              <bold>BOLD</bold>STILL BOLD
+            </bold>
           </line>
         </document>
         """, prelude=False))

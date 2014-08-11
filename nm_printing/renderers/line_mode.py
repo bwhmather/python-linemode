@@ -16,8 +16,8 @@ attributes:
     is shorthand for `centerLeft`.  Defaults to `left`.  If width is not
     specified and cannot be determined from the context, the content width is
     used and this attribute has no effect.
-  - `bold`:
-    the contents of this span should be printed in bold.
+
+### `<bold>`
 
 """
 import re
@@ -116,14 +116,20 @@ class _LineModeRenderer(object):
             assert width <= max_width
         return width
 
+    def _render_bold(self, elem, *, max_width=None):
+        self._bold_stack += 1
+        if self._bold_stack == 1:
+            yield ('select-bold')
+
+        yield from self._render_body(elem, max_width=max_width)
+
+        self._bold_stack -= 1
+        if self._bold_stack == 0:
+            yield ('cancel-bold')
+
     def _render_span(self, elem, *, max_width=None):
         width = self._span_width(elem, max_width=max_width)
         body_width = self._body_width(elem, max_width=width)
-
-        if 'bold' in elem.attrib:
-            self._bold_stack += 1
-            if self._bold_stack == 1:
-                yield ('select-bold')
 
         if body_width >= width:
             # no point in trying to justify text that overflows. Just align
@@ -149,11 +155,6 @@ class _LineModeRenderer(object):
         right_padding = width - body_width - left_padding
         if right_padding > 0:
             yield ('write', ' ' * right_padding)
-
-        if 'bold' in elem.attrib:
-            self._bold_stack -= 1
-            if self._bold_stack == 0:
-                yield ('cancel-bold')
 
     def _render_body(self, elem, *, max_width=None):
         children = elem.getchildren()

@@ -115,3 +115,42 @@ class TestLineModeRenderer(unittest.TestCase):
             """<document charset="euc_jp"></document>"""
         ))
         self.assertIn(('set-charset', 'euc_jp'), commands)
+
+    def test_bold_span(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <span bold="bold">BOLD</span>
+          </line>
+        </document>
+        """, prelude=False))
+        self.assertEqual(
+            commands,
+            [
+                ('select-bold'),
+                ('write', "BOLD"),
+                ('cancel-bold'),
+                ('write', "\n"),
+            ]
+        )
+
+    def test_nested_bold_span(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <span bold="bold">
+              <span bold="bold">BOLD</span>STILL BOLD
+            </span>
+          </line>
+        </document>
+        """, prelude=False))
+        self.assertEqual(
+            commands,
+            [
+                ('select-bold'),
+                ('write', "BOLD"),
+                ('write', "STILL BOLD"),
+                ('cancel-bold'),
+                ('write', "\n"),
+            ]
+        )

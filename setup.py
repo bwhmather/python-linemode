@@ -2,6 +2,14 @@
 import sys
 from setuptools import setup, find_packages
 
+extras_require = {
+    'XMLRenderer': [
+        'lxml >= 2.3, < 4',
+    ],
+    'Serial': [
+        'pyserial',
+    ],
+}
 
 setup(
     name='nm-printing',
@@ -15,14 +23,10 @@ setup(
     long_description=__doc__,
     install_requires=[
     ],
-    extras_require={
-        'XMLRenderer': [
-            'lxml >= 2.3, < 4',
-        ],
-        'Serial': [
-            'pyserial',
-        ],
-    },
+    extras_require=extras_require,
+    tests_require=list(set(sum(
+        (extras_require[extra] for extra in ['XMLRenderer']), []
+    ))),
     packages=find_packages(),
     package_data={
         '': ['*.*'],

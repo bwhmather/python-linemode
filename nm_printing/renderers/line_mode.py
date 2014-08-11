@@ -157,7 +157,7 @@ class LineModeRenderer(object):
         for child in children:
             # TODO max_width
             yield from self._render_element(child, max_width=None)
-            if elem.tail is not None and len(elem.tail):
+            if child.tail is not None and len(child.tail):
                 yield ('write', child.tail)
 
     def _render_element(self, elem, *, max_width=None):

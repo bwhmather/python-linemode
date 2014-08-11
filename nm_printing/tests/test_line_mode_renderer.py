@@ -134,7 +134,7 @@ class TestLineModeRenderer(unittest.TestCase):
             ]
         )
 
-    def test_nested_bold_span(self):
+    def test_nested_bold(self):
         commands = list(render("""
         <document>
           <line>

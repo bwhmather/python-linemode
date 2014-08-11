@@ -22,8 +22,6 @@ attributes:
 """
 import re
 
-from lxml import etree
-
 
 def _compress_whitespace(xml):
     """ Replace all sequences of whitespace characters in an xml etree with a
@@ -72,6 +70,15 @@ class _LineModeRenderer(object):
         self._prelude = prelude
 
         self._bold_stack = 0
+
+        try:
+            import lxml
+            assert lxml
+        except ImportError as e:
+            raise ImportError(
+                "lxml not installed.  "
+                "Please install nm-printing with the XMLRenderer flag."
+            ) from e
 
         # TODO this seems funky
         self._generator = self._render()
@@ -171,6 +178,9 @@ class _LineModeRenderer(object):
             yield ('cancel-bold')
 
     def _render(self):
+        # imported here as lxml is an `extras_require` dependency
+        from lxml import etree
+
         xml = etree.fromstring(self._source)
 
         _strip_outer_whitespace(xml)

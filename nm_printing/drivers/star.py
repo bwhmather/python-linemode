@@ -87,7 +87,7 @@ class StarPrinter(Printer):
         # TODO escaping
         return string.encode(self._charset)
 
-    def compile_command(self, command):
+    def _compile_command(self, command):
         if isinstance(command, str):
             command_name, args = command, []
         else:
@@ -98,11 +98,13 @@ class StarPrinter(Printer):
             return command
         return command(*args)
 
-    def run_commands(self, commands):
-        message = b''.join(
+    def compile(self, commands):
+        return b''.join(
             self.compile_command(command) for command in commands
         )
-        self._port.write(message)
+
+    def execute(self, program):
+        self._port.write(program)
         self._port.flush()
 
     def shutdown(self):

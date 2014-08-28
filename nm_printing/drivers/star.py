@@ -100,7 +100,7 @@ class StarPrinter(Printer):
 
     def compile(self, commands):
         return b''.join(
-            self.compile_command(command) for command in commands
+            self._compile_command(command) for command in commands
         )
 
     def execute(self, program):

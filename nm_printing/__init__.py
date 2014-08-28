@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
 from nm_printing.drivers import star
+from nm_printing.spooler import PrintSpooler
 
 
 _BUILTIN_DRIVERS = {
@@ -29,4 +30,4 @@ def open_printer(uri, *args, **kwargs):
     else:
         return driver(uri, *args, **kwargs)
 
-__all__ = [register_driver, open_printer]
+__all__ = [register_driver, open_printer, PrintSpooler]

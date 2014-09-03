@@ -9,12 +9,17 @@ class Printer(metaclass=ABCMeta):
         The type and format of the returned program is private to the printer
         driver implementation.
         """
-        pass
+        raise NotImplementedError()
 
     def execute(self, program):
         """ Execute a compiled program.
         """
-        pass
+        raise NotImplementedError()
+
+    def run_commands(self, commands):
+        """ Shortcut for compiling and executing an iterator of commands
+        """
+        self.execute(self.compile(commands))
 
     def shutdown(self):
         pass

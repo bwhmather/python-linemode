@@ -95,6 +95,8 @@ class StarPrinter(Printer):
 
         command = self.COMMANDS[command_name]
         if isinstance(command, bytes):
+            if len(args):
+                raise TypeError("%s takes no arguments" % command_name)
             return command
         return command(*args)
 

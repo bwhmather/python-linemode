@@ -1,4 +1,3 @@
-from uuid import uuid4
 from concurrent.futures import Future
 from threading import Thread, Lock
 import queue
@@ -8,10 +7,8 @@ log = logging.getLogger('nm_printing')
 
 
 class PrintJob(Future):
-    def __init__(self, program, id_=None):
+    def __init__(self, program):
         super(PrintJob, self).__init__()
-        if id_ is None:
-            self.id = str(uuid4())
         self.program = program
 
 
@@ -22,7 +19,6 @@ class PrintSpooler(object):
         self._printer = printer
 
         self._job_queue = queue.Queue()
-        self._jobs = {}
         self._shutdown = False
         self._shutdown_lock = Lock()
 
@@ -58,13 +54,9 @@ class PrintSpooler(object):
         program = self._printer.compile(commands)
         job = PrintJob(program)
 
-        self._jobs[job.id] = job
         self._job_queue.put(job)
 
         return job
-
-    def get_job(self, job_id):
-        return self._jobs[job_id]
 
     def shutdown(self):
         with self._shutdown_lock:

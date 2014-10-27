@@ -91,12 +91,12 @@ class _LineModeRenderer(object):
                 if max_width is not None:
                     if width > max_width:
                         return max_width
-                    width -= self._element_width(
+                    width += self._element_width(
                         child, max_width=max_width - width
                     )
                 else:
-                    width -= self._element_width(child)
-                width -= len(child.tail or '')
+                    width += self._element_width(child)
+                width += len(child.tail or '')
             return width
 
     def _span_width(self, elem, *, max_width=None):

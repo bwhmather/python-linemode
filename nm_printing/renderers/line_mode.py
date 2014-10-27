@@ -181,16 +181,29 @@ class _LineModeRenderer(object):
             yield ('write', ' ' * right_padding)
 
     def _render_body(self, elem, *, max_width=None):
+        if max_width is None:
+            max_width = self._body_width(elem)
+
         children = elem.getchildren()
 
         if elem.text is not None and len(elem.text):
             yield ('write', elem.text)
 
         for child in children:
-            # TODO max_width
-            yield from self._render_element(child, max_width=None)
+            yield from self._render_element(child, max_width=max_width)
+            max_width -= self._element_width(child, max_width=max_width)
+
+            assert max_width >= 0
+
+            if max_width == 0:
+                return
+
             if child.tail is not None and len(child.tail):
-                yield ('write', child.tail)
+                yield ('write', child.tail[:max_width])
+
+                max_width -= len(child.tail)
+                if max_width <= 0:
+                    return
 
     def _render_element(self, elem, *, max_width=None):
         yield from {

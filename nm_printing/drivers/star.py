@@ -24,6 +24,7 @@ class StarPrinter(Printer):
             'fontsize-large': b'\x1b\x68\x32',
             'set-charset': self._op_set_charset,
             'write': self._op_write_string,
+            'qr-code': self._op_qr_code,
             'cut-through': b'\x1b\x64\x02',
             'cut-partial': b'\x1b\x64\x03',
             'cut-through-immediate': b'\x1b\x64\x00',
@@ -86,6 +87,18 @@ class StarPrinter(Printer):
     def _op_write_string(self, string):
         # TODO escaping
         return string.encode(self._charset)
+
+    def _op_qr_code(self, data):
+        # TODO make configurable
+        # TODO figure out what this stuff actually means!
+        return (
+            b'\x1b\x1d\x52\x7f\x00\x1b\x1d\x79\x53\x30\x01\x1b\x1d\x79\x53' +
+            b'\x31\x02\x1b\x1d\x79\x53\x32\x08\x1b\x1d\x79\x44\x31\x00' +
+            bytes([len(data)]) +
+            b'\x00' +
+            bytes(data) +
+            b'\x1b\x1d\x79\x50'
+        )
 
     def _compile_command(self, command):
         if isinstance(command, str):

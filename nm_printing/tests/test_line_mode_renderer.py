@@ -154,3 +154,81 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('write', "\n"),
             ]
         )
+
+    def test_inverse(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <inverse>BOLD</inverse>
+          </line>
+        </document>
+        """, prelude=False))
+        self.assertEqual(
+            commands,
+            [
+                ('select-inverse'),
+                ('write', "BOLD"),
+                ('cancel-inverse'),
+                ('write', "\n"),
+            ]
+        )
+
+    def test_nested_inverse(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <inverse>
+              <inverse>BOLD</inverse>STILL BOLD
+            </inverse>
+          </line>
+        </document>
+        """, prelude=False))
+        self.assertEqual(
+            commands,
+            [
+                ('select-inverse'),
+                ('write', "BOLD"),
+                ('write', "STILL BOLD"),
+                ('cancel-inverse'),
+                ('write', "\n"),
+            ]
+        )
+
+    def test_highlight(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <highlight>BOLD</highlight>
+          </line>
+        </document>
+        """, prelude=False))
+        self.assertEqual(
+            commands,
+            [
+                ('select-highlight'),
+                ('write', "BOLD"),
+                ('cancel-highlight'),
+                ('write', "\n"),
+            ]
+        )
+
+    def test_nested_highlight(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <highlight>
+              <highlight>BOLD</highlight>STILL BOLD
+            </highlight>
+          </line>
+        </document>
+        """, prelude=False))
+        self.assertEqual(
+            commands,
+            [
+                ('select-highlight'),
+                ('write', "BOLD"),
+                ('write', "STILL BOLD"),
+                ('cancel-highlight'),
+                ('write', "\n"),
+            ]
+        )

@@ -106,6 +106,27 @@ class TestLineModeRenderer(unittest.TestCase):
             ('write', '  '), ('write', 'aa'), ('write', ' '), ('write', '\n'),
         ])
 
+    def test_stretch(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <span width="12">
+              <span align="left">left</span><span align="right">right</span>
+            </span>
+          </line>
+        </document>
+        """, prelude=False))
+
+        self.assertEqual(
+            commands,
+            [
+                ('write', "left"),
+                ('write', "   "),
+                ('write', "right"),
+                ('write', "\n"),
+            ]
+        )
+
     def test_default_charset(self):
         commands = set(render("""<document></document>"""))
         self.assertIn(('set-charset', 'ascii'), commands)

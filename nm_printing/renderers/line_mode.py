@@ -105,8 +105,14 @@ class _LineModeRenderer(object):
             if max_width is not None:
                 width = min(width, max_width)
             return width
-        else:
-            return self._body_width(elem, max_width=max_width)
+
+        # TODO right to left filling
+        alignment = elem.attrib.get('align', 'left')
+        if alignment in {'right', 'centerLeft', 'centerRight', 'center'}:
+            if max_width is not None:
+                return max_width
+
+        return self._body_width(elem, max_width=max_width)
 
     def _element_width(self, elem, *, max_width=None):
         if elem.tag in {'span', 'bold', 'highlight', 'inverse'}:

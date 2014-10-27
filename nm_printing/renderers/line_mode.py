@@ -70,6 +70,7 @@ class _LineModeRenderer(object):
         self._prelude = prelude
 
         self._bold_stack = 0
+        self._inverse_stack = 0
 
         try:
             import lxml
@@ -127,6 +128,28 @@ class _LineModeRenderer(object):
         if self._bold_stack == 0:
             yield ('cancel-bold')
 
+    def _render_inverse(self, elem, *, max_width=None):
+        self._inverse_stack += 1
+        if self._inverse_stack == 1:
+            yield ('select-inverse')
+
+        yield from self._render_body(elem, max_width=max_width)
+
+        self._inverse_stack -= 1
+        if self._inverse_stack == 0:
+            yield ('cancel-inverse')
+
+    def _render_inverse(self, elem, *, max_width=None):
+        self._inverse_stack += 1
+        if self._inverse_stack == 1:
+            yield ('select-inverse')
+
+        yield from self._render_body(elem, max_width=max_width)
+
+        self._inverse_stack -= 1
+        if self._inverse_stack == 0:
+            yield ('cancel-inverse')
+
     def _render_span(self, elem, *, max_width=None):
         width = self._span_width(elem, max_width=max_width)
         body_width = self._body_width(elem, max_width=width)
@@ -172,6 +195,7 @@ class _LineModeRenderer(object):
         yield from {
             'span': self._render_span,
             'bold': self._render_bold,
+            'inverse': self._render_inverse,
         }[elem.tag](elem, max_width=max_width)
 
     def _render(self):

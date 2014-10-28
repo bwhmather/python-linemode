@@ -127,6 +127,28 @@ class TestLineModeRenderer(unittest.TestCase):
             ]
         )
 
+    def test_overlapping_stretch(self):
+        commands = list(render("""
+        <document>
+          <line>
+            <span width="8">
+              <span align="left">left</span>
+              <span align="right">right</span>
+            </span>
+          </line>
+        </document>
+        """, prelude=False))
+
+        self.assertEqual(
+            commands,
+            [
+                ('write', "left"),
+                ('write', " "),
+                ('write', "rig"),
+                ('write', "\n"),
+            ]
+        )
+
     def test_default_charset(self):
         commands = set(render("""<document></document>"""))
         self.assertIn(('set-charset', 'ascii'), commands)

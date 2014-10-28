@@ -232,8 +232,18 @@ class _LineModeRenderer(object):
             yield ('set-charset', xml.attrib.get('charset', 'ascii'))
 
         for line in xml.getchildren():
+            height = int(line.attrib.get('height', '1'))
+            if height != 1:
+                yield {
+                    2: ('fontsize-medium'),
+                    3: ('fontsize-large'),
+                }[height]
+
             yield from self._render_body(line, max_width=self._max_width)
             yield ('write', "\n")
+
+            if height != 1:
+                yield ('fontsize-small')
 
         # TODO better name for flag
         if self._prelude:

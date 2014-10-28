@@ -189,7 +189,11 @@ class _LineModeRenderer(object):
         children = elem.getchildren()
 
         if elem.text is not None and len(elem.text):
-            yield ('write', elem.text)
+            yield ('write', elem.text[:max_width])
+
+            max_width -= len(elem.text)
+            if max_width <= 0:
+                return
 
         for child in children:
             yield from self._render_element(child, max_width=max_width)

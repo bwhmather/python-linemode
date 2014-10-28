@@ -87,16 +87,24 @@ class _LineModeRenderer(object):
 
     def _body_width(self, elem, *, max_width=None):
             width = len(elem.text or '')
-            for child in elem.getchildren():
-                if max_width is not None:
-                    if width > max_width:
-                        return max_width
+            if max_width is not None:
+                if width > max_width:
+                    return max_width
+
+                for child in elem.getchildren():
                     width += self._element_width(
                         child, max_width=max_width - width
                     )
-                else:
+
+                    width += len(child.tail or '')
+
+                    if width > max_width:
+                        return max_width
+            else:
+                for child in elem.getchildren():
                     width += self._element_width(child)
-                width += len(child.tail or '')
+                    width += len(child.tail or '')
+
             return width
 
     def _span_width(self, elem, *, max_width=None):

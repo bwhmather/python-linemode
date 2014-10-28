@@ -176,45 +176,6 @@ class TestLineModeRenderer(unittest.TestCase):
             ]
         )
 
-    def test_inverse(self):
-        commands = list(render("""
-        <document>
-          <line>
-            <inverse>BOLD</inverse>
-          </line>
-        </document>
-        """, prelude=False))
-        self.assertEqual(
-            commands,
-            [
-                ('select-inverse'),
-                ('write', "BOLD"),
-                ('cancel-inverse'),
-                ('write', "\n"),
-            ]
-        )
-
-    def test_nested_inverse(self):
-        commands = list(render("""
-        <document>
-          <line>
-            <inverse>
-              <inverse>BOLD</inverse>STILL BOLD
-            </inverse>
-          </line>
-        </document>
-        """, prelude=False))
-        self.assertEqual(
-            commands,
-            [
-                ('select-inverse'),
-                ('write', "BOLD"),
-                ('write', "STILL BOLD"),
-                ('cancel-inverse'),
-                ('write', "\n"),
-            ]
-        )
-
     def test_highlight(self):
         commands = list(render("""
         <document>

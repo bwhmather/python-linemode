@@ -70,7 +70,6 @@ class _LineModeRenderer(object):
         self._prelude = prelude
 
         self._bold_stack = 0
-        self._inverse_stack = 0
         self._highlight_stack = 0
 
         try:
@@ -123,7 +122,7 @@ class _LineModeRenderer(object):
         return self._body_width(elem, max_width=max_width)
 
     def _element_width(self, elem, *, max_width=None):
-        if elem.tag in {'span', 'bold', 'highlight', 'inverse'}:
+        if elem.tag in {'span', 'bold', 'highlight'}:
             width = self._span_width(elem, max_width=max_width)
         else:
             raise Exception('unknown element', elem)
@@ -142,17 +141,6 @@ class _LineModeRenderer(object):
         self._bold_stack -= 1
         if self._bold_stack == 0:
             yield ('cancel-bold')
-
-    def _render_inverse(self, elem, *, max_width=None):
-        self._inverse_stack += 1
-        if self._inverse_stack == 1:
-            yield ('select-inverse')
-
-        yield from self._render_body(elem, max_width=max_width)
-
-        self._inverse_stack -= 1
-        if self._inverse_stack == 0:
-            yield ('cancel-inverse')
 
     def _render_highlight(self, elem, *, max_width=None):
         self._highlight_stack += 1
@@ -223,7 +211,6 @@ class _LineModeRenderer(object):
         yield from {
             'span': self._render_span,
             'bold': self._render_bold,
-            'inverse': self._render_inverse,
             'highlight': self._render_highlight,
         }[elem.tag](elem, max_width=max_width)
 

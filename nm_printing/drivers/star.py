@@ -17,8 +17,6 @@ class StarPrinter(Printer):
             'cancel-bold': b'\x1b\x46',
             'select-highlight': b'\x1b\x34',
             'cancel-highlight': b'\x1b\x35',
-            'select-inverse': b'\x0f',
-            'cancel-inverse': b'\x12',
             'fontsize-small': b'\x1b\x14',
             'fontsize-medium': b'\x1b\x0e',
             'fontsize-large': b'\x1b\x68\x32',

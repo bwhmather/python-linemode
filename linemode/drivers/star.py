@@ -1,4 +1,3 @@
-import codecs
 from urllib.parse import urlparse
 
 from linemode.base import Printer
@@ -18,7 +17,6 @@ class StarPrinterCompiler(Printer):
             'fontsize-small': b'\x1b\x14',
             'fontsize-medium': b'\x1b\x0e',
             'fontsize-large': b'\x1b\x68\x32',
-            'set-charset': self._op_set_charset,
             'write': self._op_write_string,
             'barcode': self._op_barcode,
             'cut-through': b'\x1b\x64\x02',
@@ -68,17 +66,6 @@ class StarPrinterCompiler(Printer):
             'cp3021': b'\x4e',  # TODO not supported by python
             'cp3041': b'\x4f',  # TODO not supported by python
         }
-
-    def _op_set_charset(self, charset):
-        charset = codecs.lookup(charset).name
-        command = b'\x1b\x1d\x74' + self.CHARSET_CODES[charset]
-
-        # XXX side-effect XXX
-        # need to keep a record of what charset the printer is using in order
-        # to encode input strings.
-        # Might be better to set this only once when the printer is initialised
-        self._charset = charset
-        return command
 
     def _op_write_string(self, string):
         try:

@@ -4,11 +4,9 @@ from urllib.parse import urlparse
 from linemode.base import Printer
 
 
-class StarPrinter(Printer):
-    def __init__(self, port):
-        super(StarPrinter, self).__init__()
+class StarPrinterCompiler(Printer):
+    def __init__(self):
 
-        self._port = port
         self._charset = 'ascii'
 
         self.COMMANDS = {
@@ -114,10 +112,22 @@ class StarPrinter(Printer):
             return command
         return command(*args)
 
-    def compile(self, commands):
+    def __call__(self, commands):
         return b''.join(
             self._compile_command(command) for command in commands
         )
+
+
+class StarPrinter(Printer):
+    compiler = StarPrinterCompiler
+
+    def __init__(self, port):
+        super(StarPrinter, self).__init__()
+
+        self._port = port
+
+    def compile(self, commands, **kwargs):
+        return self.compiler(**kwargs)(commands)
 
     def execute(self, program):
         self._port.write(program)

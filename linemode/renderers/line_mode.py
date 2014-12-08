@@ -239,7 +239,7 @@ class _LineModeRenderer(object):
                 }[height]
 
             yield from self._render_body(line, max_width=self._max_width)
-            yield ('write', "\n")
+            yield ('newline')
 
             if height != 1:
                 yield ('fontsize-small')

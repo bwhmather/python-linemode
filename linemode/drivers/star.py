@@ -1,7 +1,7 @@
 import codecs
 from urllib.parse import urlparse
 
-from nm_printing.base import Printer
+from linemode.base import Printer
 
 
 class StarPrinter(Printer):
@@ -11,10 +11,24 @@ class StarPrinter(Printer):
         self._port = port
         self._charset = 'ascii'
 
-    def _op_set_charset(self, charset):
-        charset = codecs.lookup(charset).name
-
-        command = b'\x1b\x1d\x74' + {
+        self.COMMANDS = {
+            'reset': b'\x18',
+            'select-bold': b'\x1b\x45',
+            'cancel-bold': b'\x1b\x46',
+            'select-highlight': b'\x1b\x34',
+            'cancel-highlight': b'\x1b\x35',
+            'fontsize-small': b'\x1b\x14',
+            'fontsize-medium': b'\x1b\x0e',
+            'fontsize-large': b'\x1b\x68\x32',
+            'set-charset': self._op_set_charset,
+            'write': self._op_write_string,
+            'qr-code': self._op_qr_code,
+            'cut-through': b'\x1b\x64\x02',
+            'cut-partial': b'\x1b\x64\x03',
+            'cut-through-immediate': b'\x1b\x64\x00',
+            'cut-partial-immediate': b'\x1b\x64\x01',
+        }
+        self.CHARSET_CODES = {
             'ascii': b'\x00',  # TODO Normal is not ascii but something weird
             'euc_jp': b'\x02',  # TODO Katakana
             'cp437': b'\x03',
@@ -55,7 +69,11 @@ class StarPrinter(Printer):
             'cp3012': b'\x4d',  # TODO not supported by python
             'cp3021': b'\x4e',  # TODO not supported by python
             'cp3041': b'\x4f',  # TODO not supported by python
-        }[charset]
+        }
+
+    def _op_set_charset(self, charset):
+        charset = codecs.lookup(charset).name
+        command = b'\x1b\x1d\x74' + self.CHARSET_CODES[charset]
 
         # XXX side-effect XXX
         # need to keep a record of what charset the printer is using in order
@@ -68,40 +86,42 @@ class StarPrinter(Printer):
         # TODO escaping
         return string.encode(self._charset)
 
-    def compile_command(self, command):
-        commands = {
-            'select-bold': b'\x1b\x45',
-            'cancel-bold': b'\x1b\x46',
-            'select-highlight': b'\x1b\x34',
-            'cancel-highlight': b'\x1b\x35',
-            'select-inverse': b'\x0f',
-            'cancel-inverse': b'\x12',
-            'fontsize-small': b'\x1b\x14',
-            'fontsize-medium': b'\x1b\x0e',
-            'fontsize-large': b'\x1b\x68\x32',
-            'set-charset': self._op_set_charset,
-            'write': self._op_write_string,
-            'cut-through': b'\x1b\x64\x02',
-            'cut-partial': b'\x1b\x64\x03',
-            'cut-through-immediate': b'\x1b\x64\x00',
-            'cut-partial-immediate': b'\x1b\x64\x01',
-        }
+    def _op_qr_code(self, data):
+        # TODO make configurable
+        # TODO figure out what this stuff actually means!
+        return (
+            b'\x1b\x1d\x52\x7f\x00\x1b\x1d\x79\x53\x30\x01\x1b\x1d\x79\x53' +
+            b'\x31\x02\x1b\x1d\x79\x53\x32\x08\x1b\x1d\x79\x44\x31\x00' +
+            bytes([len(data)]) +
+            b'\x00' +
+            bytes(data) +
+            b'\x1b\x1d\x79\x50'
+        )
+
+    def _compile_command(self, command):
         if isinstance(command, str):
             command_name, args = command, []
         else:
             command_name, *args = command
 
-        command = commands[command_name]
+        command = self.COMMANDS[command_name]
         if isinstance(command, bytes):
+            if len(args):
+                raise TypeError("%s takes no arguments" % command_name)
             return command
         return command(*args)
 
-    def run_commands(self, commands):
-        message = b''.join(
-            self.compile_command(command) for command in commands
+    def compile(self, commands):
+        return b''.join(
+            self._compile_command(command) for command in commands
         )
-        self._port.write(message)
+
+    def execute(self, program):
+        self._port.write(program)
         self._port.flush()
+
+    def shutdown(self):
+        self._port.close()
 
 
 def open_tcp(uri, *args, **kwargs):

@@ -1,0 +1,21 @@
+language: python
+python:
+  - "3.4"
+
+install:
+  - "pip install -e ."
+  - "pip install pyflakes"
+  - "pip install pep8"
+
+script:
+  - "python setup.py test"
+  - "pep8 linemode setup.py"
+  - "pyflakes linemode setup.py"
+
+deploy:
+  provider: pypi
+  user: "bwhmather-travis"
+  password:
+    secure: "NfBB+gy4B9qejuYEKr4n9UWMrkeqvFtmzmxMhn8w9qBe25YhX07UnVR7HVY2svTiLgIUrimYpzMAOP3sMPSd+lnzMw/u1IV4gIKFE83FcN102iP7jqGffX+UWQhlO4FbzJyysyfkWsZI54/UA+fGTRFHYyTT16zjxhTZD+7q3CU="
+  on:
+    branch: "master"

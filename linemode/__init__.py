@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
-from nm_printing.drivers import star
+from linemode.drivers import star
+from linemode.spooler import PrintSpooler
 
 
 _BUILTIN_DRIVERS = {
@@ -23,12 +24,10 @@ def open_printer(uri, *args, **kwargs):
     if not scheme or scheme == uri:
         raise ValueError("Malformed printer uri")
     try:
-        print(scheme)
-        print(list(_drivers.keys()))
         driver = _drivers[scheme]
     except KeyError:
         raise Exception("Unrecognised printer uri")
     else:
         return driver(uri, *args, **kwargs)
 
-__all__ = [register_driver, open_printer]
+__all__ = [register_driver, open_printer, PrintSpooler]

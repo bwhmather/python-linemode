@@ -2,7 +2,10 @@ Python Linemode Printing
 ========================
 .. image:: https://travis-ci.org/bwhmather/python-linemode.svg?branch=develop :target: https://travis-ci.org/bwhmather/python-linemode
 
+Python library for communicating with line-mode thermal printers.
+Currently works only with printers that support the star line mode protocol but adding support for other similar printers should be possible.
 
+Also provides a module for compiling an xml description of a page to a list of commands.
 
 
 Example

@@ -229,7 +229,6 @@ class _LineModeRenderer(object):
 
         if self._prelude:
             yield ('reset')
-            yield ('set-charset', xml.attrib.get('charset', 'ascii'))
 
         for line in xml.getchildren():
             height = int(line.attrib.get('height', '1'))

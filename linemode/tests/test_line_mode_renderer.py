@@ -149,16 +149,6 @@ class TestLineModeRenderer(unittest.TestCase):
             ]
         )
 
-    def test_default_charset(self):
-        commands = set(render("""<document></document>"""))
-        self.assertIn(('set-charset', 'ascii'), commands)
-
-    def test_charset(self):
-        commands = set(render(
-            """<document charset="euc_jp"></document>"""
-        ))
-        self.assertIn(('set-charset', 'euc_jp'), commands)
-
     def test_bold(self):
         commands = list(render("""
         <document>

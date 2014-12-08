@@ -22,7 +22,7 @@ class StarPrinter(Printer):
             'fontsize-large': b'\x1b\x68\x32',
             'set-charset': self._op_set_charset,
             'write': self._op_write_string,
-            'qr-code': self._op_qr_code,
+            'barcode': self._op_barcode,
             'cut-through': b'\x1b\x64\x02',
             'cut-partial': b'\x1b\x64\x03',
             'cut-through-immediate': b'\x1b\x64\x00',
@@ -86,7 +86,10 @@ class StarPrinter(Printer):
         # TODO escaping
         return string.encode(self._charset)
 
-    def _op_qr_code(self, data):
+    def _op_barcode(self, style, data):
+        if style != 'qr':
+            raise ValueError('unsupported barcode format', style)
+
         # TODO make configurable
         # TODO figure out what this stuff actually means!
         return (

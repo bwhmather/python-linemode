@@ -18,6 +18,7 @@ class StarPrinterCompiler(Printer):
             'fontsize-medium': b'\x1b\x0e',
             'fontsize-large': b'\x1b\x68\x32',
             'write': self._op_write_string,
+            'newline': b'\n',
             'barcode': self._op_barcode,
             'cut-through': b'\x1b\x64\x02',
             'cut-partial': b'\x1b\x64\x03',

@@ -12,7 +12,7 @@ extras_require = {
 setup(
     name='linemode',
     url='github.com/bwhmather/python-linemode',
-    version='0.0.1',
+    version='0.1.0',
     author='Ben Mather',
     author_email='bwhmather@bwhmather.com',
     maintainer='',

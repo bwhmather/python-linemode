@@ -1,12 +1,12 @@
 import unittest
 from lxml import etree
 
-from linemode.renderers.line_mode import (
+from linemode.renderers.xml import (
     _compress_whitespace, _strip_outer_whitespace, render,
 )
 
 
-class TestLineModeRenderer(unittest.TestCase):
+class TestXMLRenderer(unittest.TestCase):
     def test_compress_whitespace(self):
         xml = etree.fromstring("""
         <line>

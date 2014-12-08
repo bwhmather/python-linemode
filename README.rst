@@ -32,11 +32,11 @@ Running templates:
 .. code:: python
 
     from linemode import open_printer
-    from linemode.renderers import line_mode
+    from linemode.renderers import xml
 
     printer = open_printer('star+lpt:///dev/usb/lp0')
 
-    printer.run_commands(line_mode.render("""
+    printer.run_commands(xml.render("""
     <document>
       <line>
         <bold>Hello world</bold>
@@ -51,7 +51,7 @@ With jinja:
     from jinja2 import Template
 
     from linemode import open_printer
-    from linemode.renderers import line_mode
+    from linemode.renderers import xml
 
     printer = open_printer('star+lpt:///dev/usb/lp0')
 
@@ -69,7 +69,7 @@ With jinja:
     document = Template(template).render()
 
     # iterator of generic printer instructions
-    commands = line_mode.render(document)
+    commands = xml.render(document)
 
     # printer specific compiled representation
     program = printer.compile(commands)

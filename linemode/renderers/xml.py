@@ -63,7 +63,7 @@ def _strip_outer_whitespace(xml):
                 elem.text = None
 
 
-class _LineModeRenderer(object):
+class _XMLRenderer(object):
     def __init__(self, source, *, max_width=None, prelude=True):
         self._source = source
         self._max_width = max_width
@@ -256,4 +256,4 @@ class _LineModeRenderer(object):
 
 
 def render(source, *, max_width=None, prelude=True):
-    return _LineModeRenderer(source, max_width=max_width, prelude=prelude)
+    return _XMLRenderer(source, max_width=max_width, prelude=prelude)

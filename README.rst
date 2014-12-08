@@ -9,8 +9,8 @@ Also provides a module for compiling an xml description of a page to a list of c
 
 Developed at `Newman Online Ltd`_ and open sourced with permission.
 
-Example
--------
+Examples
+--------
 
 Basic, without template system:
 

@@ -134,8 +134,8 @@ class StarPrinter(Printer):
 
         self._port = port
 
-    def compile(self, commands, **kwargs):
-        return self.compiler(**kwargs)(commands)
+    def compile(self, commands):
+        return self.compiler()(commands)
 
     def execute(self, program):
         self._port.write(program)

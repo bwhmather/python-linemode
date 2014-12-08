@@ -1,7 +1,4 @@
-from abc import ABCMeta
-
-
-class Printer(metaclass=ABCMeta):
+class Printer(object):
     def compile(self, commands):
         """ Takes a list of commands and returns a program which can be
         printed using `execute`.

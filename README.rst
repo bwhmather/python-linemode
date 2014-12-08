@@ -1,5 +1,6 @@
-Python Linemode Printing .. image:: https://travis-ci.org/bwhmather/python-linemode.svg?branch=develop :target: https://travis-ci.org/bwhmather/python-linemode
+Python Linemode Printing
 ========================
+.. image:: https://travis-ci.org/bwhmather/python-linemode.svg?branch=develop :target: https://travis-ci.org/bwhmather/python-linemode
 
 
 

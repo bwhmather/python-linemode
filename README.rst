@@ -76,4 +76,10 @@ With jinja:
 
     printer.execute(program)
 
+Bugs
+----
+
+Please post any problems or feature requests using the `issue tracker`_.
+
 .. _Newman Online Ltd: http://newmanonline.org.uk
+.. _issue tracker: https://github.com/bwhmather/verktyg/issues

@@ -80,6 +80,8 @@ Bugs
 ----
 
 Please post any problems or feature requests using the `issue tracker`_.
+Pull requests welcome.
+New drivers would be greatly appreciated.
 
 .. _Newman Online Ltd: http://newmanonline.org.uk
 .. _issue tracker: https://github.com/bwhmather/verktyg/issues

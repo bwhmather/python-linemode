@@ -1,12 +1,12 @@
 import unittest
 from lxml import etree
 
-from linemode.renderers.line_mode import (
+from linemode.renderers.xml import (
     _compress_whitespace, _strip_outer_whitespace, render,
 )
 
 
-class TestLineModeRenderer(unittest.TestCase):
+class TestXMLRenderer(unittest.TestCase):
     def test_compress_whitespace(self):
         xml = etree.fromstring("""
         <line>
@@ -59,7 +59,7 @@ class TestLineModeRenderer(unittest.TestCase):
             commands,
             [
                 ('write', "Hello world"),
-                ('write', "\n"),
+                ('newline'),
             ]
         )
 
@@ -76,7 +76,7 @@ class TestLineModeRenderer(unittest.TestCase):
             commands,
             [
                 ('write', "Hello world"),
-                ('write', "\n"),
+                ('newline'),
             ]
         )
 
@@ -91,19 +91,19 @@ class TestLineModeRenderer(unittest.TestCase):
             self.assertEqual(commands, expected)
 
         test('left', [
-            ('write', 'aa'), ('write', '   '), ('write', '\n'),
+            ('write', 'aa'), ('write', '   '), ('newline'),
         ])
         test('right', [
-            ('write', '   '), ('write', 'aa'), ('write', '\n'),
+            ('write', '   '), ('write', 'aa'), ('newline'),
         ])
         test('centerLeft', [
-            ('write', ' '), ('write', 'aa'), ('write', '  '), ('write', '\n'),
+            ('write', ' '), ('write', 'aa'), ('write', '  '), ('newline'),
         ])
         test('center', [
-            ('write', ' '), ('write', 'aa'), ('write', '  '), ('write', '\n'),
+            ('write', ' '), ('write', 'aa'), ('write', '  '), ('newline'),
         ])
         test('centerRight', [
-            ('write', '  '), ('write', 'aa'), ('write', ' '), ('write', '\n'),
+            ('write', '  '), ('write', 'aa'), ('write', ' '), ('newline'),
         ])
 
     def test_stretch(self):
@@ -123,7 +123,7 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('write', "left"),
                 ('write', "   "),
                 ('write', "right"),
-                ('write', "\n"),
+                ('newline'),
             ]
         )
 
@@ -145,19 +145,9 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('write', "left"),
                 ('write', " "),
                 ('write', "rig"),
-                ('write', "\n"),
+                ('newline'),
             ]
         )
-
-    def test_default_charset(self):
-        commands = set(render("""<document></document>"""))
-        self.assertIn(('set-charset', 'ascii'), commands)
-
-    def test_charset(self):
-        commands = set(render(
-            """<document charset="euc_jp"></document>"""
-        ))
-        self.assertIn(('set-charset', 'euc_jp'), commands)
 
     def test_bold(self):
         commands = list(render("""
@@ -173,7 +163,7 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('select-bold'),
                 ('write', "BOLD"),
                 ('cancel-bold'),
-                ('write', "\n"),
+                ('newline'),
             ]
         )
 
@@ -194,7 +184,7 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('write', "BOLD"),
                 ('write', "STILL BOLD"),
                 ('cancel-bold'),
-                ('write', "\n"),
+                ('newline'),
             ]
         )
 
@@ -212,7 +202,7 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('select-highlight'),
                 ('write', "BOLD"),
                 ('cancel-highlight'),
-                ('write', "\n"),
+                ('newline'),
             ]
         )
 
@@ -233,6 +223,6 @@ class TestLineModeRenderer(unittest.TestCase):
                 ('write', "BOLD"),
                 ('write', "STILL BOLD"),
                 ('cancel-highlight'),
-                ('write', "\n"),
+                ('newline'),
             ]
         )

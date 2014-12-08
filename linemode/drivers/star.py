@@ -1,14 +1,11 @@
-import codecs
 from urllib.parse import urlparse
 
 from linemode.base import Printer
 
 
-class StarPrinter(Printer):
-    def __init__(self, port):
-        super(StarPrinter, self).__init__()
-
-        self._port = port
+class StarPrinterCompiler(Printer):
+    def __init__(self):
+        # TODO check that ascii is a subset of all the other charsets
         self._charset = 'ascii'
 
         self.COMMANDS = {
@@ -20,9 +17,9 @@ class StarPrinter(Printer):
             'fontsize-small': b'\x1b\x14',
             'fontsize-medium': b'\x1b\x0e',
             'fontsize-large': b'\x1b\x68\x32',
-            'set-charset': self._op_set_charset,
             'write': self._op_write_string,
-            'qr-code': self._op_qr_code,
+            'barcode': self._op_barcode,
+            'newline': b'\n',
             'cut-through': b'\x1b\x64\x02',
             'cut-partial': b'\x1b\x64\x03',
             'cut-through-immediate': b'\x1b\x64\x00',
@@ -71,22 +68,34 @@ class StarPrinter(Printer):
             'cp3041': b'\x4f',  # TODO not supported by python
         }
 
-    def _op_set_charset(self, charset):
-        charset = codecs.lookup(charset).name
-        command = b'\x1b\x1d\x74' + self.CHARSET_CODES[charset]
-
-        # XXX side-effect XXX
-        # need to keep a record of what charset the printer is using in order
-        # to encode input strings.
-        # Might be better to set this only once when the printer is initialised
-        self._charset = charset
-        return command
-
     def _op_write_string(self, string):
-        # TODO escaping
-        return string.encode(self._charset)
+        try:
+            return string.encode(self._charset)
+        except UnicodeEncodeError:
+            # could not encode string using current charset
+            # conduct a brute force search
+            for charset in self.CHARSET_CODES:
+                try:
+                    return (
+                        b'\x1b\x1d\x74' +
+                        self.CHARSET_CODES[charset] +
+                        string.encode(charset)
+                    )
+                except UnicodeEncodeError:
+                    # unknown character in charset
+                    continue
+                except LookupError:
+                    # charset not supported by python
+                    continue
+                else:
+                    self._charset = charset
+            # TODO should this be an error
+            return string.encode(self._charset, errors='replace')
 
-    def _op_qr_code(self, data):
+    def _op_barcode(self, style, data):
+        if style != 'qr':
+            raise ValueError('unsupported barcode format', style)
+
         # TODO make configurable
         # TODO figure out what this stuff actually means!
         return (
@@ -111,10 +120,22 @@ class StarPrinter(Printer):
             return command
         return command(*args)
 
-    def compile(self, commands):
+    def __call__(self, commands):
         return b''.join(
             self._compile_command(command) for command in commands
         )
+
+
+class StarPrinter(Printer):
+    compiler = StarPrinterCompiler
+
+    def __init__(self, port):
+        super(StarPrinter, self).__init__()
+
+        self._port = port
+
+    def compile(self, commands):
+        return self.compiler()(commands)
 
     def execute(self, program):
         self._port.write(program)

@@ -81,8 +81,28 @@ class StarPrinterCompiler(Printer):
         return command
 
     def _op_write_string(self, string):
-        # TODO escaping
-        return string.encode(self._charset)
+        try:
+            return string.encode(self._charset)
+        except UnicodeEncodeError:
+            # could not encode string using current charset
+            # conduct a brute force search
+            for charset in self.CHARSET_CODES:
+                try:
+                    return (
+                        b'\x1b\x1d\x74' +
+                        self.CHARSET_CODES[charset] +
+                        string.encode(charset)
+                    )
+                except UnicodeEncodeError:
+                    # unknown character in charset
+                    continue
+                except LookupError:
+                    # charset not supported by python
+                    continue
+                else:
+                    self._charset = charset
+            # TODO should this be an error
+            return string.encode(self._charset, errors='replace')
 
     def _op_barcode(self, style, data):
         if style != 'qr':

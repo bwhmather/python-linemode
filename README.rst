@@ -1,4 +1,4 @@
-Python Linemode Printing
+Python Linemode Printing [![Build Status](https://travis-ci.org/bwhmather/python-linemode.png)](https://travis-ci.org/bwhmather/python-linemode)
 ========================
 
 Example

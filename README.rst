@@ -80,53 +80,42 @@ Command Language
 ----------------
 
 `reset`
-~~~~~~~
-Reset everything to it's initial state.
+  Reset everything to it's initial state.
 
 `select-bold`/`cancel-bold`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Toggle printing bold text.
+  Toggle printing bold text.
 
 `select-highlight`/`cancel-highlight`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Toggle printing white on black instead of black on white.
+  Toggle printing white on black instead of black on white.
 
 `fontsize-small`/`fontsize-medium`/`fontsize-large`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Set the line height for the current line and all following lines.
-If not sent at the beginning of a new line then behaviour is undefined.
-Characters should remain the same width.
+  Set the line height for the current line and all following lines.
+  If not sent at the beginning of a new line then behaviour is undefined.
+  Characters should remain the same width.
 
-Default: `fontsize-small`
+  Default: `fontsize-small`
 
 `write <string>`
-~~~~~~~~~~~~~~~~
-Print the contents of a unicode string.
-If any characters are unsupported, they will be replaced with '?'.
+  Print the contents of a unicode string.
+  If any characters are unsupported, they will be replaced with '?'.
 
 `barcode <style> <data>`
-~~~~~~~~~~~~~~~~~~~~~~~~
-TODO
+  TODO
 
 `newline`
-~~~~~~~~~
-Flush the line buffer and start a new line.
+  Flush the line buffer and start a new line.
 
 `cut-through`
-~~~~~~~~~~~~~
-Create a cut at the next mark
+  Create a cut at the next mark
 
 `cut-partial`
-~~~~~~~~~~~~~
-Create a perforated cut at the next mark
+  Create a perforated cut at the next mark
 
 `cut-through-immediate`
-~~~~~~~~~~~~~~~~~~~~~~~
-Create a cut at the current cursor position
+  Create a cut at the current cursor position
 
 `cut-partial-immediate`
-~~~~~~~~~~~~~~~~~~~~~~~
-Create a perforated cut at the current cursor position
+  Create a perforated cut at the current cursor position
 
 Bugs
 ----

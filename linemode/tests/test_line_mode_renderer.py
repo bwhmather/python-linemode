@@ -1,7 +1,7 @@
 import unittest
 from lxml import etree
 
-from nm_printing.renderers.line_mode import (
+from linemode.renderers.line_mode import (
     _compress_whitespace, _strip_outer_whitespace, render,
 )
 

@@ -10,13 +10,13 @@ extras_require = {
 }
 
 setup(
-    name='nm-printing',
-    url='github.com/NewmanOnline/nm-printing',
+    name='linemode',
+    url='github.com/bwhmather/python-linemode',
     version='0.0.1',
-    author='Newman Team',
-    author_email='newman@newmanonline.org.uk',
+    author='Ben Mather',
+    author_email='bwhmather@bwhmather.com',
     maintainer='',
-    license='Commercial, All rights reserved.',
+    license='BSD',
     description='Drivers and templates for thermal printers',
     long_description=__doc__,
     install_requires=[
@@ -30,5 +30,5 @@ setup(
         '': ['*.*'],
     },
     zip_safe=False,
-    test_suite='nm_printing.tests.suite',
+    test_suite='linemode.tests.suite',
 )

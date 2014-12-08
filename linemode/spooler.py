@@ -3,7 +3,7 @@ from threading import Thread, Lock
 import queue
 
 import logging
-log = logging.getLogger('nm_printing')
+log = logging.getLogger('linemode')
 
 
 class PrintJob(Future):

@@ -1,6 +1,6 @@
 import unittest
 
-from nm_printing.drivers.star import StarPrinter
+from linemode.drivers.star import StarPrinter
 
 
 class TestStarPrinter(unittest.TestCase):

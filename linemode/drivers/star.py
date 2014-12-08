@@ -1,7 +1,7 @@
 import codecs
 from urllib.parse import urlparse
 
-from nm_printing.base import Printer
+from linemode.base import Printer
 
 
 class StarPrinter(Printer):

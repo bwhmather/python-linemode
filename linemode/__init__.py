@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 
-from nm_printing.drivers import star
-from nm_printing.spooler import PrintSpooler
+from linemode.drivers import star
+from linemode.spooler import PrintSpooler
 
 
 _BUILTIN_DRIVERS = {

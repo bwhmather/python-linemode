@@ -1,8 +1,8 @@
 import unittest
 
-from nm_printing.tests.test_line_mode_renderer import TestLineModeRenderer
-from nm_printing.tests.test_star import TestStarPrinter
-from nm_printing.tests.test_spooler import TestPrintSpooler
+from linemode.tests.test_line_mode_renderer import TestLineModeRenderer
+from linemode.tests.test_star import TestStarPrinter
+from linemode.tests.test_spooler import TestPrintSpooler
 
 
 loader = unittest.TestLoader()

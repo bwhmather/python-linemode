@@ -1,5 +1,5 @@
-Newman Printing
-===============
+Python Linemode Printing
+========================
 
 Example
 -------
@@ -8,7 +8,7 @@ Basic, without template system:
 
 .. code:: python
 
-    from nm_printing import open_printer
+    from linemode import open_printer
 
     printer = open_printer('star+lpt:///dev/usb/lp0')
 
@@ -23,8 +23,8 @@ Running templates:
 
 .. code:: python
 
-    from nm_printing import open_printer
-    from nm_printing.renderers import line_mode
+    from linemode import open_printer
+    from linemode.renderers import line_mode
 
     printer = open_printer('star+lpt:///dev/usb/lp0')
 
@@ -42,8 +42,8 @@ With jinja:
 
     from jinja2 import Template
 
-    from nm_printing import open_printer
-    from nm_printing.renderers import line_mode
+    from linemode import open_printer
+    from linemode.renderers import line_mode
 
     printer = open_printer('star+lpt:///dev/usb/lp0')
 

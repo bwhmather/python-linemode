@@ -1,7 +1,7 @@
 import unittest
 
-from nm_printing import PrintSpooler
-from nm_printing.base import Printer
+from linemode import PrintSpooler
+from linemode.base import Printer
 
 
 class TestPrintSpooler(unittest.TestCase):

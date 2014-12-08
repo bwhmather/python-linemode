@@ -5,7 +5,7 @@ from linemode.base import Printer
 
 class StarPrinterCompiler(Printer):
     def __init__(self):
-
+        # TODO check that ascii is a subset of all the other charsets
         self._charset = 'ascii'
 
         self.COMMANDS = {

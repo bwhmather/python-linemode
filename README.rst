@@ -7,6 +7,7 @@ Currently works only with printers that support the star line mode protocol but 
 
 Also provides a module for compiling an xml description of a page to a list of commands.
 
+Developed at `Newman Online Ltd`_ and open sourced with permission.
 
 Example
 -------
@@ -75,3 +76,4 @@ With jinja:
 
     printer.execute(program)
 
+.. _Newman Online Ltd: http://newmanonline.org.uk

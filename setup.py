@@ -19,6 +19,16 @@ setup(
     license='BSD',
     description='Drivers and templates for thermal printers',
     long_description=__doc__,
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: System :: Hardware :: Hardware Drivers',
+        'Topic :: Printing',
+    ],
     install_requires=[
     ],
     extras_require=extras_require,

@@ -1,8 +1,5 @@
-Python Linemode Printing
-========================
-.. image:: https://travis-ci.org/bwhmather/python-linemode.png?branch=develop
-    :target: http://travis-ci.org/bwhmather/python-linemode
-    :alt: Build Status
+Python Linemode Printing |build-status|
+=======================================
 
 Python library for communicating with line-mode thermal printers.
 Currently works only with printers that support the star line mode protocol but adding support for other similar printers should be possible.
@@ -125,6 +122,11 @@ Bugs
 Please post any problems or feature requests using the `issue tracker`_.
 Pull requests welcome.
 New drivers would be greatly appreciated.
+
+
+.. |build-status| image:: https://travis-ci.org/bwhmather/python-linemode.png?branch=develop
+    :target: http://travis-ci.org/bwhmather/python-linemode
+    :alt: Build Status
 
 .. _Newman Online Ltd: http://newmanonline.org.uk
 .. _issue tracker: https://github.com/bwhmather/verktyg/issues

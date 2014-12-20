@@ -81,4 +81,4 @@ class PrintSpooler(object):
     def _shutdown_async(self):
         """ Shutdown without blocking.
         """
-        Thread(target=self.shutdown)
+        Thread(target=self.shutdown).start()

@@ -35,8 +35,8 @@ class TestPrintSpooler(unittest.TestCase):
                     executed = True
 
         spooler = PrintSpooler(DummyPrinter())
-        spooler.submit(None)
-        spooler.submit(None)
+        job_1 = spooler.submit(None)
+        job_2 = spooler.submit(None)
 
         shutdown_thread = threading.Thread(target=spooler.shutdown)
         shutdown_thread.start()
@@ -51,6 +51,8 @@ class TestPrintSpooler(unittest.TestCase):
 
         # the first print job should have finished before shutting down
         self.assertTrue(executed)
+        self.assertTrue(job_1.done())
+        self.assertTrue(job_2.cancelled())
 
     def test_submit_job(self):
         testcase = self

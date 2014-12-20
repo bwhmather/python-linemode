@@ -4,5 +4,6 @@
 __pycache__/
 *.pyc
 .tox/
+/.coverage
 /dist/
 /build/

@@ -145,27 +145,27 @@ class StarPrinter(Printer):
         self._port.close()
 
 
-def open_tcp(uri, *args, **kwargs):
+def open_tcp(uri):
     raise NotImplementedError()
 
 
-def open_lpt(uri, *args, **kwargs):
+def open_lpt(uri):
     uri_parts = urlparse(uri)
     port = open(uri_parts.path, 'r+b')
 
-    return StarPrinter(port, *args, **kwargs)
+    return StarPrinter(port)
 
 
-def open_com(uri, *args, **kwargs):
+def open_com(uri):
     import serial
 
     uri_parts = urlparse(uri)
     port = serial.Serial(uri_parts.netloc)
 
-    return StarPrinter(port, *args, **kwargs)
+    return StarPrinter(port)
 
 
-def open_debug(uri, *args, **kwargs):
+def open_debug(uri):
     class DebugPort(object):
         def write(self, data):
             for line in data.split(b'\n'):
@@ -174,4 +174,4 @@ def open_debug(uri, *args, **kwargs):
         def flush(self):
             pass
 
-    return StarPrinter(DebugPort(), *args, **kwargs)
+    return StarPrinter(DebugPort())

@@ -1,16 +1,21 @@
 language: python
+sudo: false
 python:
   - "3.4"
 
 install:
   - "pip install -e ."
+  - "pip install coveralls"
   - "pip install pyflakes"
   - "pip install pep8"
 
 script:
-  - "python setup.py test"
+  - "coverage run --source=linemode setup.py test"
   - "pep8 linemode setup.py"
   - "pyflakes linemode setup.py"
+
+after_success:
+  - "coveralls"
 
 deploy:
   provider: pypi

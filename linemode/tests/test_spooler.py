@@ -32,6 +32,8 @@ class TestPrintSpooler(unittest.TestCase):
                     # only one job should run
                     testcase.assertFalse(executed)
 
+                    executed = True
+
         spooler = PrintSpooler(DummyPrinter())
         spooler.submit(None)
         spooler.submit(None)

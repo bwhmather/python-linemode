@@ -1,5 +1,6 @@
 import unittest
 import threading
+from time import sleep
 
 from linemode import PrintSpooler
 from linemode.base import Printer
@@ -93,3 +94,18 @@ class TestPrintSpooler(unittest.TestCase):
 
         self.assertTrue(compiled)
         self.assertTrue(executed)
+
+    def test_execute_fail(self):
+        class DummyPrinter(Printer):
+            def compile(self, commands):
+                return None
+
+            def execute(self, program):
+                raise Exception("failed for no good reason")
+
+        spooler = PrintSpooler(DummyPrinter())
+        self.assertRaises(Exception, spooler.submit(None).result)
+
+        # TODO better way to check for shutdown
+        sleep(0.1)
+        self.assertRaises(RuntimeError, spooler.submit, None)

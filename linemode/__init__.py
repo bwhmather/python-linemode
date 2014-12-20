@@ -19,7 +19,7 @@ def register_driver(uri_scheme, factory):
     _drivers[uri_scheme] = factory
 
 
-def open_printer(uri, *args, **kwargs):
+def open_printer(uri):
     scheme = urlparse(uri).scheme
     if not scheme or scheme == uri:
         raise ValueError("Malformed printer uri")
@@ -28,6 +28,6 @@ def open_printer(uri, *args, **kwargs):
     except KeyError:
         raise Exception("Unrecognised printer uri")
     else:
-        return driver(uri, *args, **kwargs)
+        return driver(uri)
 
 __all__ = [register_driver, open_printer, PrintSpooler]

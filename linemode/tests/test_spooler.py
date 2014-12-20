@@ -1,4 +1,5 @@
 import unittest
+import threading
 
 from linemode import PrintSpooler
 from linemode.base import Printer
@@ -10,6 +11,44 @@ class TestPrintSpooler(unittest.TestCase):
             pass
         spooler = PrintSpooler(DummyPrinter())
         spooler.shutdown()
+
+    def test_shutdown_with_pending(self):
+        testcase = self
+        condition = threading.Condition()
+        executed = False
+
+        class DummyPrinter(Printer):
+            def compile(self, commands):
+                return None
+
+            def execute(self, program):
+                nonlocal testcase
+                nonlocal condition
+                nonlocal executed
+
+                with condition:
+                    condition.wait()
+
+                    # only one job should run
+                    testcase.assertFalse(executed)
+
+        spooler = PrintSpooler(DummyPrinter())
+        spooler.submit(None)
+        spooler.submit(None)
+
+        shutdown_thread = threading.Thread(target=spooler.shutdown)
+        shutdown_thread.start()
+
+        # first task should still be blocking
+        self.assertFalse(executed)
+
+        with condition:
+            condition.notify_all()
+
+        shutdown_thread.join()
+
+        # the first print job should have finished before shutting down
+        self.assertTrue(executed)
 
     def test_submit_job(self):
         testcase = self

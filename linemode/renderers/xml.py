@@ -78,7 +78,7 @@ class _XMLRenderer(object):
         except ImportError as e:
             raise ImportError(
                 "lxml not installed.  "
-                "Please install nm-printing with the XMLRenderer flag."
+                "Please install python-linemode with the XMLRenderer flag."
             ) from e
 
         # TODO this seems funky

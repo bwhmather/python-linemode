@@ -30,4 +30,4 @@ def open_printer(uri):
     else:
         return driver(uri)
 
-__all__ = [register_driver, open_printer, PrintSpooler]
+__all__ = ['register_driver', 'open_printer', 'PrintSpooler']

@@ -9,7 +9,8 @@ _BUILTIN_DRIVERS = {
     'star+tcp': star.open_tcp,
     'star+lpt': star.open_lpt,
     'star+com': star.open_com,
-    'star+stdout': star.open_debug,
+    'star+stdout': star.open_stdout,
+    'star+debug': star.open_debug,
 
     'commands+file': command_list.open_file,
     'commands+stdout': command_list.open_stdout,

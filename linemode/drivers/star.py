@@ -1,3 +1,4 @@
+import sys
 from urllib.parse import urlparse
 
 from linemode.base import Printer
@@ -163,6 +164,10 @@ def open_com(uri):
     port = serial.Serial(uri_parts.netloc)
 
     return StarPrinter(port)
+
+
+def open_stdout(uri):
+    return StarPrinter(sys.stdout)
 
 
 def open_debug(uri):

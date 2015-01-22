@@ -15,6 +15,7 @@ class TestPrintSpooler(unittest.TestCase):
 
     def test_shutdown_with_pending(self):
         testcase = self
+        started = threading.Event()
         condition = threading.Condition()
         executed = False
 
@@ -28,6 +29,8 @@ class TestPrintSpooler(unittest.TestCase):
                 nonlocal executed
 
                 with condition:
+                    started.set()
+
                     condition.wait()
 
                     # only one job should run
@@ -39,14 +42,20 @@ class TestPrintSpooler(unittest.TestCase):
         job_1 = spooler.submit(None)
         job_2 = spooler.submit(None)
 
+        # wait for first task to start
+        started.wait()
+
         shutdown_thread = threading.Thread(target=spooler.shutdown)
         shutdown_thread.start()
 
-        # first task should still be blocking
-        self.assertFalse(executed)
-
         with condition:
-            condition.notify_all()
+            # This block should not be reachable until first task has started
+            # waiting on the condition.
+            # The first task should still be blocking
+            self.assertFalse(executed)
+
+            # This will release the first task
+            condition.notify()
 
         shutdown_thread.join()
 

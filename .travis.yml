@@ -8,11 +8,13 @@ install:
   - "pip install coveralls"
   - "pip install pyflakes"
   - "pip install pep8"
+  - "pip install pylint"
 
 script:
   - "coverage run --source=linemode setup.py test"
   - "pep8 linemode setup.py"
   - "pyflakes linemode setup.py"
+  - "pylint -E linemode setup.py"
 
 after_success:
   - "coveralls"
@@ -21,6 +23,6 @@ deploy:
   provider: pypi
   user: "bwhmather-travis"
   password:
-    secure: "NfBB+gy4B9qejuYEKr4n9UWMrkeqvFtmzmxMhn8w9qBe25YhX07UnVR7HVY2svTiLgIUrimYpzMAOP3sMPSd+lnzMw/u1IV4gIKFE83FcN102iP7jqGffX+UWQhlO4FbzJyysyfkWsZI54/UA+fGTRFHYyTT16zjxhTZD+7q3CU="
+    secure: "ce+/iHYmV02AljRuTIr1qLmvtd14ODgR9c8DLjUvYpatdDRSM4TkVTcfro7w9t1UcOwKhVNI+5WJOL6PcT223wMeQPXk3Bhcw6W/yqqJ6S+8MHBz2qqs95zzr6d7kkAHl9sGeE7zAUKamiMRO2G1H1F7UeoTp3CrqScSobNdP60="
   on:
     branch: "master"

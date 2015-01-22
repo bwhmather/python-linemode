@@ -5,7 +5,7 @@ import re
 def render(source):
     for line in source.splitlines():
         if re.match(r"(^#.*)$|^$", line):
-            # line is empty or a comment, skip
+            # line is empty or a comment. Skip it
             continue
 
         elif re.match(r"^[a-z\-]+$", line):

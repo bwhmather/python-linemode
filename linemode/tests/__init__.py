@@ -1,17 +1,19 @@
 import unittest
 
-from linemode.tests.test_loader import TestLoader
-from linemode.tests.test_xml_renderer import TestXMLRenderer
-from linemode.tests.test_command_list_renderer import TestCommandListRenderer
-from linemode.tests.test_star import TestStarPrinter
-from linemode.tests.test_spooler import TestPrintSpooler
+from linemode.tests import (
+    test_loader,
+    test_xml_renderer, test_command_list_renderer,
+    test_star, test_command_list_printer,
+    test_spooler,
+)
 
 
 loader = unittest.TestLoader()
 suite = unittest.TestSuite((
-    loader.loadTestsFromTestCase(TestLoader),
-    loader.loadTestsFromTestCase(TestXMLRenderer),
-    loader.loadTestsFromTestCase(TestCommandListRenderer),
-    loader.loadTestsFromTestCase(TestStarPrinter),
-    loader.loadTestsFromTestCase(TestPrintSpooler),
+    loader.loadTestsFromModule(test_loader),
+    loader.loadTestsFromModule(test_xml_renderer),
+    loader.loadTestsFromModule(test_command_list_renderer),
+    loader.loadTestsFromModule(test_star),
+    loader.loadTestsFromModule(test_command_list_printer),
+    loader.loadTestsFromModule(test_spooler),
 ))

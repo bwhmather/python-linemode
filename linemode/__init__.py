@@ -1,14 +1,19 @@
 from urllib.parse import urlparse
 
-from linemode.drivers import star
+from linemode.drivers import star, command_list
 from linemode.spooler import PrintSpooler
+from linemode.exceptions import NotSupportedError
 
 
 _BUILTIN_DRIVERS = {
     'star+tcp': star.open_tcp,
     'star+lpt': star.open_lpt,
     'star+com': star.open_com,
-    'star+stdout': star.open_debug,
+    'star+stdout': star.open_stdout,
+    'star+debug': star.open_debug,
+
+    'commands+file': command_list.open_file,
+    'commands+stdout': command_list.open_stdout,
 }
 
 _drivers = {}
@@ -26,8 +31,8 @@ def open_printer(uri):
     try:
         driver = _drivers[scheme]
     except KeyError:
-        raise Exception("Unrecognised printer uri")
+        raise NotSupportedError("Unrecognised printer uri")
     else:
         return driver(uri)
 
-__all__ = [register_driver, open_printer, PrintSpooler]
+__all__ = ['register_driver', 'open_printer', 'PrintSpooler']

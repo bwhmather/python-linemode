@@ -1,6 +1,7 @@
 import unittest
 
 from linemode import open_printer, register_driver
+from linemode.exceptions import NotSupportedError
 
 
 class TestLoader(unittest.TestCase):
@@ -18,4 +19,4 @@ class TestLoader(unittest.TestCase):
         self.assertRaises(ValueError, open_printer, 'example.com')
 
     def test_not_supported(self):
-        self.assertRaises(Exception, open_printer, 'ftp://')
+        self.assertRaises(NotSupportedError, open_printer, 'ftp://')

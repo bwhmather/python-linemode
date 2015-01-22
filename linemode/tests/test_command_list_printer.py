@@ -9,3 +9,9 @@ class TestCommandListPrinter(unittest.TestCase):
             "reset"
         ])
         self.assertEqual(program, b'reset')
+
+    def test_single_arg(self):
+        program = compile([
+            ('write', "hello world"),
+        ])
+        self.assertEqual(program, b"write: 'hello world'")

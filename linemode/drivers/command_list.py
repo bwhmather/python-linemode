@@ -1,3 +1,4 @@
+import sys
 from urllib.parse import urlparse
 
 from linemode.base import Printer
@@ -40,3 +41,7 @@ def open_file(uri):
     output = open(uri_parts.path, 'w')
 
     return CommandListPrinter(output)
+
+
+def open_stdout(uri):
+    return CommandListPrinter(sys.stdout)

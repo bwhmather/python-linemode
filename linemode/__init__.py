@@ -12,6 +12,7 @@ _BUILTIN_DRIVERS = {
     'star+stdout': star.open_debug,
 
     'commands+file': command_list.open_file,
+    'commands+stdout': command_list.open_stdout,
 }
 
 _drivers = {}

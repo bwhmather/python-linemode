@@ -1,6 +1,6 @@
 from urllib.parse import urlparse
 
-from linemode.drivers import star
+from linemode.drivers import star, command_list
 from linemode.spooler import PrintSpooler
 from linemode.exceptions import NotSupportedError
 
@@ -10,6 +10,8 @@ _BUILTIN_DRIVERS = {
     'star+lpt': star.open_lpt,
     'star+com': star.open_com,
     'star+stdout': star.open_debug,
+
+    'commands+file': command_list.open_file,
 }
 
 _drivers = {}

@@ -15,3 +15,9 @@ class TestCommandListPrinter(unittest.TestCase):
             ('write', "hello world"),
         ])
         self.assertEqual(program, b"write: 'hello world'")
+
+    def test_multiple_args(self):
+        program = compile([
+            ('barcode', "EAN-8", "12345678")
+        ])
+        self.assertEqual(program, b"barcode: 'EAN-8', '12345678'")

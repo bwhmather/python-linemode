@@ -42,11 +42,11 @@ class TestPrintSpooler(unittest.TestCase):
         job_1 = spooler.submit(None)
         job_2 = spooler.submit(None)
 
-        shutdown_thread = threading.Thread(target=spooler.shutdown)
-        shutdown_thread.start()
-
         # wait for first task to start
         started.wait()
+
+        shutdown_thread = threading.Thread(target=spooler.shutdown)
+        shutdown_thread.start()
 
         with condition:
             # This block should not be reachable until first task has started

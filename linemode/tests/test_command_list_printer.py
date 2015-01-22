@@ -21,3 +21,11 @@ class TestCommandListPrinter(unittest.TestCase):
             ('barcode', "EAN-8", "12345678")
         ])
         self.assertEqual(program, b"barcode: 'EAN-8', '12345678'")
+
+    def test_multiple_commands(self):
+        program = compile([
+            'reset',
+            'select-bold',
+            ('write', "HELLO WORLD"),
+        ])
+        self.assertEqual(program, b"reset\nselect-bold\nwrite: 'HELLO WORLD'")

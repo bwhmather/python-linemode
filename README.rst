@@ -80,6 +80,12 @@ With jinja:
 Command Language
 ----------------
 
+Printer drivers accept an iterable of command tuples.
+Tuples should contain a command name followed by any number of primitive arguments.
+For convenience, a tuple containing just a command name can be replaced with the command name.
+
+The following commands are supported:
+
 ``reset``
   Reset everything to it's initial state.
 

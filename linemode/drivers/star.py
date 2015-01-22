@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 from linemode.base import Printer
 
 
-class StarPrinterCompiler(Printer):
+class StarPrinterCompiler(object):
     def __init__(self):
         # TODO check that ascii is a subset of all the other charsets
         self._charset = 'ascii'

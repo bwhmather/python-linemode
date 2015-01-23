@@ -44,15 +44,15 @@ class TestCommandListPrinter(unittest.TestCase):
 
         self.assertEqual(output.getvalue(), b"write: 'hello world'")
 
+        printer.shutdown()
+
     def test_open_file(self):
         with tempfile.NamedTemporaryFile('rb') as output:
             filename = 'commands+file://%s' % output.name
 
-            printer = open_file(filename)
-
-            printer.run_commands([
-                ('write', "hello world"),
-            ])
-            printer.shutdown()
+            with open_file(filename) as printer:
+                printer.run_commands([
+                    ('write', "hello world"),
+                ])
 
             self.assertEqual(output.read(), b"write: 'hello world'")

@@ -49,4 +49,4 @@ def open_file(uri):
 
 
 def open_stdout(uri):
-    return CommandListPrinter(sys.stdout, _close_port=True)
+    return CommandListPrinter(sys.stdout)

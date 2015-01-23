@@ -130,10 +130,11 @@ class StarPrinterCompiler(object):
 class StarPrinter(Printer):
     compiler = StarPrinterCompiler
 
-    def __init__(self, port):
+    def __init__(self, port, *, _close_port=False):
         super(StarPrinter, self).__init__()
 
         self._port = port
+        self._close_port = _close_port
 
     def compile(self, commands):
         return self.compiler()(commands)
@@ -143,7 +144,8 @@ class StarPrinter(Printer):
         self._port.flush()
 
     def shutdown(self):
-        self._port.close()
+        if self._close_port:
+            self._port.close()
 
 
 def open_tcp(uri):

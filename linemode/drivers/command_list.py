@@ -38,7 +38,7 @@ class CommandListPrinter(Printer):
 
 def open_file(uri):
     uri_parts = urlparse(uri)
-    output = open(uri_parts.path, 'w')
+    output = open(uri_parts.path, 'wb')
 
     return CommandListPrinter(output)
 

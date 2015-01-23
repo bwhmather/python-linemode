@@ -35,16 +35,12 @@ class TestCommandListPrinter(unittest.TestCase):
         self.assertEqual(program, b"reset\nselect-bold\nwrite: 'HELLO WORLD'")
 
     def test_printer(self):
-        output = io.BytesIO()
-        printer = CommandListPrinter(output)
+        with io.BytesIO() as output, CommandListPrinter(output) as printer:
+            printer.run_commands([
+                ('write', "hello world"),
+            ])
 
-        printer.run_commands([
-            ('write', "hello world"),
-        ])
-
-        self.assertEqual(output.getvalue(), b"write: 'hello world'")
-
-        printer.shutdown()
+            self.assertEqual(output.getvalue(), b"write: 'hello world'")
 
     def test_open_file(self):
         with tempfile.NamedTemporaryFile('rb') as output:

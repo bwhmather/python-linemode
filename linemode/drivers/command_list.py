@@ -35,6 +35,9 @@ class CommandListPrinter(Printer):
     def execute(self, program):
         self.output.write(program)
 
+    def shutdown(self):
+        self.output.close()
+
 
 def open_file(uri):
     uri_parts = urlparse(uri)

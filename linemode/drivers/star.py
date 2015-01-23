@@ -156,7 +156,7 @@ def open_lpt(uri):
     uri_parts = urlparse(uri)
     port = open(uri_parts.path, 'r+b')
 
-    return StarPrinter(port)
+    return StarPrinter(port, _close_port=True)
 
 
 def open_com(uri):
@@ -165,7 +165,7 @@ def open_com(uri):
     uri_parts = urlparse(uri)
     port = serial.Serial(uri_parts.netloc)
 
-    return StarPrinter(port)
+    return StarPrinter(port, _close_port=True)
 
 
 def open_stdout(uri):

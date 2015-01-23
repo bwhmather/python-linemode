@@ -47,7 +47,6 @@ class TestCommandListPrinter(unittest.TestCase):
     def test_open_file(self):
         with tempfile.NamedTemporaryFile('rb') as output:
             filename = 'commands+file://%s' % output.name
-            print(filename)
 
             printer = open_file(filename)
 

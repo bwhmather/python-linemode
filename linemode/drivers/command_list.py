@@ -26,24 +26,24 @@ def compile(commands):
 
 
 class CommandListPrinter(Printer):
-    def __init__(self, output):
-        self.output = output
+    def __init__(self, port):
+        self._port = port
 
     def compile(self, commands):
         return compile(commands)
 
     def execute(self, program):
-        self.output.write(program)
+        self._port.write(program)
 
     def shutdown(self):
-        self.output.close()
+        self._port.close()
 
 
 def open_file(uri):
     uri_parts = urlparse(uri)
-    output = open(uri_parts.path, 'wb')
+    port = open(uri_parts.path, 'wb')
 
-    return CommandListPrinter(output)
+    return CommandListPrinter(port)
 
 
 def open_stdout(uri):

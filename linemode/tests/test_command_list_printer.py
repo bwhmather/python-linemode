@@ -1,6 +1,7 @@
+import io
 import unittest
 
-from linemode.drivers.command_list import compile
+from linemode.drivers.command_list import compile, CommandListPrinter
 
 
 class TestCommandListPrinter(unittest.TestCase):
@@ -29,3 +30,13 @@ class TestCommandListPrinter(unittest.TestCase):
             ('write', "HELLO WORLD"),
         ])
         self.assertEqual(program, b"reset\nselect-bold\nwrite: 'HELLO WORLD'")
+
+    def test_printer(self):
+        output = io.BytesIO()
+        printer = CommandListPrinter(output)
+
+        printer.run_commands([
+            ('write', "hello world"),
+        ])
+
+        self.assertEqual(output.getvalue(), b"write: 'hello world'")

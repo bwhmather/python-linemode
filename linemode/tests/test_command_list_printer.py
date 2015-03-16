@@ -1,6 +1,10 @@
+import io
+import tempfile
 import unittest
 
-from linemode.drivers.command_list import compile
+from linemode.drivers.command_list import (
+    compile, CommandListPrinter, open_file
+)
 
 
 class TestCommandListPrinter(unittest.TestCase):
@@ -29,3 +33,22 @@ class TestCommandListPrinter(unittest.TestCase):
             ('write', "HELLO WORLD"),
         ])
         self.assertEqual(program, b"reset\nselect-bold\nwrite: 'HELLO WORLD'")
+
+    def test_printer(self):
+        with io.BytesIO() as output, CommandListPrinter(output) as printer:
+            printer.run_commands([
+                ('write', "hello world"),
+            ])
+
+            self.assertEqual(output.getvalue(), b"write: 'hello world'")
+
+    def test_open_file(self):
+        with tempfile.NamedTemporaryFile('rb') as output:
+            filename = 'commands+file://%s' % output.name
+
+            with open_file(filename) as printer:
+                printer.run_commands([
+                    ('write', "hello world"),
+                ])
+
+            self.assertEqual(output.read(), b"write: 'hello world'")

@@ -18,6 +18,7 @@ class TestStarPrinter(unittest.TestCase):
     def test_detect_charset(self):
         printer = StarPrinter(None)
 
+        # print some japanese (supported)
         program = printer.compile([
             ('write', "ぐけげこごさざしじすずせぜそぞた"),
         ])
@@ -26,4 +27,17 @@ class TestStarPrinter(unittest.TestCase):
             program,
             b'\x1b\x1d\x74' + b'\x02' +
             "ぐけげこごさざしじすずせぜそぞた".encode('euc_jp')
+        )
+
+    def test_fail_to_detect_charset(self):
+        printer = StarPrinter(None)
+
+        # print some samaritan (not supported)
+        program = printer.compile([
+            ('write', "ࠀࠁࠂࠃࠄࠅࠆࠇࠈࠉࠊࠋࠌࠍࠎ"),
+        ])
+
+        self.assertEqual(
+            program,
+            b"???????????????"
         )

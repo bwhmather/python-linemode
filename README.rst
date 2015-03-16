@@ -139,4 +139,4 @@ New drivers would be greatly appreciated.
     :target: https://coveralls.io/r/bwhmather/python-linemode?branch=develop
     :alt: Coverage
 .. _Newman Online Ltd: http://newmanonline.org.uk
-.. _issue tracker: https://github.com/bwhmather/verktyg/issues
+.. _issue tracker: https://github.com/bwhmather/python-linemode/issues

@@ -3,7 +3,7 @@ Python Linemode Printing
 
 |build-status| |coverage|
 
-Python library for communicating with line-mode thermal printers.
+Python library for communicating with line-mode thermal printers (currently tested with the TSP700II USB).
 Currently works only with printers that support the star line mode protocol but adding support for other similar printers should be possible.
 
 Also provides a module for compiling an xml description of a page to a list of commands.
